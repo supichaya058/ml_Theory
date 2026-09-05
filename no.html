@@ -1,0 +1,2651 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>K-Means Interactive Lab</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+/* =========================================================
+   RESET
+========================================================= */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    background:#f4f5f0;
+    color:#17191c;
+    font-family:"DM Sans",sans-serif;
+    overflow-x:hidden;
+}
+
+button{
+    font-family:inherit;
+}
+
+
+/* =========================================================
+   NAVBAR
+========================================================= */
+
+.navbar{
+    width:100%;
+    height:76px;
+    padding:0 6vw;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    border-bottom:1px solid #d9dbd4;
+    background:#f4f5f0;
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:12px;
+
+    font-family:"Space Grotesk",sans-serif;
+    font-size:18px;
+    font-weight:700;
+    letter-spacing:-.5px;
+}
+
+.logo-mark{
+    width:32px;
+    height:32px;
+    border-radius:9px;
+
+    background:#17191c;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    color:white;
+    font-size:14px;
+}
+
+.nav-right{
+    display:flex;
+    align-items:center;
+    gap:25px;
+
+    font-size:13px;
+    color:#737770;
+}
+
+.nav-tag{
+    padding:7px 12px;
+    border:1px solid #d1d3cc;
+    border-radius:20px;
+
+    color:#343731;
+    background:#fff;
+}
+
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.hero{
+    min-height:530px;
+    padding:80px 7vw 70px;
+
+    display:grid;
+    grid-template-columns:1.1fr .9fr;
+    gap:70px;
+
+    align-items:center;
+}
+
+.hero-left{
+    max-width:700px;
+}
+
+.eyebrow{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+
+    font-family:"Space Grotesk",sans-serif;
+    font-size:12px;
+    font-weight:600;
+    letter-spacing:1.5px;
+
+    color:#636760;
+    margin-bottom:25px;
+}
+
+.eyebrow-dot{
+    width:8px;
+    height:8px;
+    background:#9b5cff;
+    border-radius:50%;
+}
+
+.hero h1{
+    font-family:"Space Grotesk",sans-serif;
+    font-size:clamp(54px,7vw,100px);
+    line-height:.9;
+    letter-spacing:-6px;
+
+    margin-bottom:30px;
+}
+
+.hero h1 span{
+    color:#9b5cff;
+}
+
+.hero-description{
+    max-width:560px;
+
+    font-size:17px;
+    line-height:1.8;
+    color:#62665f;
+}
+
+.hero-right{
+    display:flex;
+    justify-content:center;
+}
+
+.hero-card{
+    width:100%;
+    max-width:450px;
+    min-height:330px;
+
+    background:#191b20;
+    color:white;
+
+    border-radius:28px;
+    padding:30px;
+
+    position:relative;
+    overflow:hidden;
+
+    box-shadow:0 25px 70px rgba(0,0,0,.12);
+}
+
+.hero-card::before{
+    content:"";
+    position:absolute;
+    width:250px;
+    height:250px;
+
+    background:#9b5cff;
+    opacity:.13;
+
+    border-radius:50%;
+    filter:blur(50px);
+
+    right:-80px;
+    top:-80px;
+}
+
+.card-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    position:relative;
+    z-index:2;
+}
+
+.card-label{
+    font-family:"Space Grotesk",sans-serif;
+    font-size:12px;
+    letter-spacing:1.5px;
+    color:#a7aaa5;
+}
+
+.k-number{
+    font-family:"Space Grotesk",sans-serif;
+    font-size:13px;
+    color:#aaa;
+}
+
+.hero-graph{
+    height:220px;
+    margin-top:25px;
+
+    position:relative;
+}
+
+.graph-line{
+    position:absolute;
+    left:20px;
+    right:20px;
+    top:105px;
+
+    height:1px;
+    background:#4a4c52;
+}
+
+.hero-point{
+    position:absolute;
+
+    width:14px;
+    height:14px;
+
+    border-radius:50%;
+
+    transform:translate(-50%,-50%);
+}
+
+.hp1{left:13%;top:105px;background:#9b5cff;}
+.hp2{left:25%;top:105px;background:#9b5cff;}
+.hp3{left:59%;top:105px;background:#4ce0b3;}
+.hp4{left:72%;top:105px;background:#4ce0b3;}
+.hp5{left:85%;top:105px;background:#4ce0b3;}
+
+.centroid{
+    position:absolute;
+
+    width:28px;
+    height:28px;
+
+    border-radius:8px;
+
+    transform:translate(-50%,-50%) rotate(45deg);
+
+    border:2px solid #191b20;
+}
+
+.c1{
+    left:13%;
+    top:105px;
+    background:#9b5cff;
+}
+
+.c2{
+    left:72%;
+    top:105px;
+    background:#4ce0b3;
+}
+
+.hero-axis-label{
+    position:absolute;
+    bottom:10px;
+    font-family:"Space Grotesk",sans-serif;
+    font-size:10px;
+    color:#777a80;
+}
+
+
+/* =========================================================
+   INTRO STRIP
+========================================================= */
+
+.intro-strip{
+    margin:0 7vw 70px;
+
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+
+    border-top:1px solid #d8dad3;
+    border-bottom:1px solid #d8dad3;
+}
+
+.intro-item{
+    padding:27px 25px;
+    border-right:1px solid #d8dad3;
+}
+
+.intro-item:last-child{
+    border-right:none;
+}
+
+.intro-number{
+    font-family:"Space Grotesk",sans-serif;
+    font-size:12px;
+    color:#9b5cff;
+    margin-bottom:9px;
+}
+
+.intro-item h3{
+    font-size:17px;
+    margin-bottom:6px;
+}
+
+.intro-item p{
+    font-size:13px;
+    color:#777a73;
+    line-height:1.6;
+}
+
+
+/* =========================================================
+   PLAYGROUND
+========================================================= */
+
+.playground{
+    padding:0 7vw 100px;
+}
+
+.section-heading{
+    margin-bottom:35px;
+}
+
+.section-heading small{
+    display:block;
+
+    font-family:"Space Grotesk",sans-serif;
+    font-size:11px;
+    letter-spacing:1.5px;
+    color:#858980;
+
+    margin-bottom:12px;
+}
+
+.section-heading h2{
+    font-family:"Space Grotesk",sans-serif;
+    font-size:clamp(32px,4vw,52px);
+    letter-spacing:-2px;
+}
+
+
+/* =========================================================
+   STEP NAV
+========================================================= */
+
+.step-navigation{
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+
+    border:1px solid #d4d6cf;
+    border-radius:18px;
+
+    overflow:hidden;
+
+    background:#fff;
+
+    margin-bottom:20px;
+}
+
+.step-btn{
+    border:none;
+    border-right:1px solid #d4d6cf;
+
+    background:#fff;
+
+    padding:18px 15px;
+
+    cursor:pointer;
+
+    text-align:left;
+
+    transition:.25s;
+}
+
+.step-btn:last-child{
+    border-right:none;
+}
+
+.step-btn:hover{
+    background:#f8f7fb;
+}
+
+.step-btn.active{
+    background:#17191c;
+    color:white;
+}
+
+.step-number{
+    display:block;
+
+    font-family:"Space Grotesk",sans-serif;
+    font-size:11px;
+
+    margin-bottom:6px;
+
+    color:#999c96;
+}
+
+.step-btn.active .step-number{
+    color:#c9b3ff;
+}
+
+.step-name{
+    font-size:13px;
+    font-weight:600;
+}
+
+
+/* =========================================================
+   WORKSPACE
+========================================================= */
+
+.workspace{
+    display:grid;
+    grid-template-columns:1.7fr .75fr;
+
+    min-height:620px;
+
+    border-radius:25px;
+    overflow:hidden;
+
+    background:#17191c;
+
+    box-shadow:0 30px 80px rgba(0,0,0,.13);
+}
+
+
+/* =========================================================
+   VISUAL AREA
+========================================================= */
+
+.visual-area{
+    position:relative;
+
+    min-height:620px;
+
+    padding:30px;
+
+    background:#1b1d22;
+}
+
+.visual-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    color:white;
+}
+
+.visual-title{
+    font-family:"Space Grotesk",sans-serif;
+    font-size:14px;
+}
+
+.visual-status{
+    font-size:11px;
+    color:#858890;
+
+    padding:7px 11px;
+    border:1px solid #383b42;
+    border-radius:20px;
+}
+
+.canvas{
+    position:absolute;
+
+    left:35px;
+    right:35px;
+    top:90px;
+    bottom:95px;
+
+    border:1px solid #30333a;
+    border-radius:20px;
+
+    overflow:hidden;
+
+    background:
+        linear-gradient(#24272d 1px,transparent 1px),
+        linear-gradient(90deg,#24272d 1px,transparent 1px);
+
+    background-size:50px 50px;
+}
+
+.axis-x{
+    position:absolute;
+
+    left:8%;
+    right:8%;
+    bottom:65px;
+
+    height:1px;
+
+    background:#5c5f66;
+}
+
+.axis-label{
+    position:absolute;
+
+    bottom:42px;
+
+    font-family:"Space Grotesk",sans-serif;
+    font-size:10px;
+
+    color:#696c73;
+}
+
+.data-point{
+    position:absolute;
+
+    width:22px;
+    height:22px;
+
+    border-radius:50%;
+
+    transform:translate(-50%,-50%);
+
+    z-index:5;
+
+    transition:
+        left .7s cubic-bezier(.2,.8,.2,1),
+        top .7s cubic-bezier(.2,.8,.2,1),
+        background .4s,
+        box-shadow .4s;
+}
+
+.data-point::after{
+    content:attr(data-value);
+
+    position:absolute;
+
+    left:50%;
+    top:-26px;
+
+    transform:translateX(-50%);
+
+    font-family:"Space Grotesk",sans-serif;
+    font-size:11px;
+
+    color:#9ea1a7;
+
+    white-space:nowrap;
+}
+
+.point-2{left:13%;top:62%;}
+.point-4{left:27%;top:48%;}
+.point-10{left:59%;top:58%;}
+.point-12{left:73%;top:42%;}
+.point-14{left:87%;top:54%;}
+
+.data-point.neutral{
+    background:#8a8e95;
+    box-shadow:0 0 0 6px rgba(138,142,149,.08);
+}
+
+.data-point.cluster1{
+    background:#9b5cff;
+    box-shadow:0 0 0 7px rgba(155,92,255,.12);
+}
+
+.data-point.cluster2{
+    background:#4ce0b3;
+    box-shadow:0 0 0 7px rgba(76,224,179,.12);
+}
+
+.centroid-point{
+    position:absolute;
+
+    width:34px;
+    height:34px;
+
+    transform:translate(-50%,-50%) rotate(45deg);
+
+    border-radius:9px;
+
+    z-index:7;
+
+    transition:
+        left .8s cubic-bezier(.2,.8,.2,1),
+        top .8s cubic-bezier(.2,.8,.2,1);
+}
+
+.centroid-point::before{
+    content:"";
+
+    position:absolute;
+
+    inset:7px;
+
+    border-radius:3px;
+
+    background:#1b1d22;
+}
+
+.centroid-point::after{
+    content:attr(data-label);
+
+    position:absolute;
+
+    transform:rotate(-45deg);
+
+    left:50%;
+    top:-25px;
+
+    translate:-50% 0;
+
+    font-family:"Space Grotesk",sans-serif;
+    font-size:10px;
+
+    color:#ddd;
+
+    white-space:nowrap;
+}
+
+.centroid1{
+    left:13%;
+    top:62%;
+
+    background:#9b5cff;
+}
+
+.centroid2{
+    left:73%;
+    top:42%;
+
+    background:#4ce0b3;
+}
+
+
+/* =========================================================
+   CONNECTION LINES
+========================================================= */
+
+.connection{
+    position:absolute;
+
+    height:2px;
+
+    transform-origin:left center;
+
+    z-index:2;
+
+    opacity:0;
+
+    transition:.4s;
+}
+
+.connection.show{
+    opacity:1;
+}
+
+.connection.c1line{
+    background:#9b5cff;
+}
+
+.connection.c2line{
+    background:#4ce0b3;
+}
+
+
+/* =========================================================
+   VISUAL MESSAGE
+========================================================= */
+
+.visual-message{
+    position:absolute;
+
+    left:35px;
+    right:35px;
+    bottom:30px;
+
+    padding:17px 20px;
+
+    border-radius:15px;
+
+    background:#24272d;
+
+    color:#d9dbe0;
+
+    font-size:13px;
+    line-height:1.6;
+
+    border:1px solid #34373e;
+}
+
+.visual-message strong{
+    color:white;
+}
+
+
+/* =========================================================
+   INFO PANEL
+========================================================= */
+
+.info-panel{
+    background:#f9f9f6;
+
+    padding:30px;
+
+    display:flex;
+    flex-direction:column;
+
+    min-width:0;
+}
+
+.info-step{
+    font-family:"Space Grotesk",sans-serif;
+
+    font-size:11px;
+    letter-spacing:1.5px;
+
+    color:#9b5cff;
+
+    margin-bottom:12px;
+}
+
+.info-panel h3{
+    font-family:"Space Grotesk",sans-serif;
+
+    font-size:30px;
+
+    line-height:1.05;
+
+    letter-spacing:-1px;
+
+    margin-bottom:14px;
+}
+
+.info-description{
+    font-size:13px;
+    line-height:1.7;
+    color:#73776f;
+
+    margin-bottom:25px;
+}
+
+.info-box{
+    border:1px solid #d8dad4;
+
+    background:white;
+
+    border-radius:15px;
+
+    padding:16px;
+
+    margin-bottom:12px;
+}
+
+.info-box-title{
+    font-family:"Space Grotesk",sans-serif;
+
+    font-size:10px;
+    letter-spacing:1.2px;
+
+    color:#8a8d86;
+
+    margin-bottom:12px;
+}
+
+.dataset{
+    display:flex;
+    flex-wrap:wrap;
+    gap:7px;
+}
+
+.data-chip{
+    min-width:35px;
+
+    padding:7px 9px;
+
+    text-align:center;
+
+    border-radius:8px;
+
+    background:#f0f0ed;
+
+    font-family:"Space Grotesk",sans-serif;
+    font-size:12px;
+}
+
+.result-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    padding:8px 0;
+
+    border-bottom:1px solid #eeeeea;
+
+    font-size:12px;
+}
+
+.result-row:last-child{
+    border-bottom:none;
+}
+
+.result-value{
+    font-family:"Space Grotesk",sans-serif;
+    font-weight:600;
+}
+
+.purple{
+    color:#8b4fe5;
+}
+
+.green{
+    color:#229d7a;
+}
+
+.distance-table{
+    width:100%;
+    border-collapse:collapse;
+
+    font-family:"Space Grotesk",sans-serif;
+    font-size:10px;
+}
+
+.distance-table th{
+    text-align:left;
+    color:#9a9d96;
+    font-weight:500;
+    padding-bottom:8px;
+}
+
+.distance-table td{
+    padding:7px 2px;
+
+    border-top:1px solid #eeeeea;
+}
+
+.choose{
+    font-weight:700;
+}
+
+.formula{
+    padding:10px;
+
+    border-radius:9px;
+
+    background:#f2f0fa;
+
+    color:#6040a0;
+
+    font-family:"Space Grotesk",sans-serif;
+    font-size:12px;
+
+    margin-bottom:7px;
+}
+
+.formula.green-formula{
+    background:#edf8f4;
+    color:#237b63;
+}
+
+.converged{
+    padding:14px;
+
+    border-radius:12px;
+
+    background:#eaf8f3;
+
+    color:#247861;
+
+    font-size:12px;
+    line-height:1.6;
+
+    border:1px solid #cdebe0;
+}
+
+.action-area{
+    margin-top:auto;
+
+    display:flex;
+    gap:8px;
+}
+
+.action-btn{
+    flex:1;
+
+    border:none;
+
+    border-radius:12px;
+
+    padding:14px;
+
+    cursor:pointer;
+
+    background:#17191c;
+    color:white;
+
+    font-family:"Space Grotesk",sans-serif;
+    font-size:11px;
+    letter-spacing:.7px;
+
+    transition:.2s;
+}
+
+.action-btn:hover{
+    transform:translateY(-2px);
+}
+
+.reset-btn{
+    flex:0 0 65px;
+
+    background:#e9eae5;
+    color:#30332e;
+}
+
+
+/* =========================================================
+   EXPLANATION
+========================================================= */
+
+.explanation{
+    padding:100px 7vw;
+
+    background:#fff;
+}
+
+.explanation-grid{
+    display:grid;
+    grid-template-columns:.8fr 1.2fr;
+
+    gap:100px;
+
+    align-items:start;
+}
+
+.explanation-left h2{
+    font-family:"Space Grotesk",sans-serif;
+    font-size:52px;
+    line-height:.95;
+    letter-spacing:-3px;
+}
+
+.explanation-left p{
+    margin-top:22px;
+
+    color:#74786f;
+    font-size:14px;
+    line-height:1.8;
+}
+
+.math-list{
+    display:flex;
+    flex-direction:column;
+}
+
+.math-item{
+    display:grid;
+    grid-template-columns:60px 1fr;
+
+    padding:25px 0;
+
+    border-top:1px solid #dfe1da;
+}
+
+.math-number{
+    font-family:"Space Grotesk",sans-serif;
+    color:#9b5cff;
+    font-size:12px;
+}
+
+.math-content h3{
+    font-family:"Space Grotesk",sans-serif;
+    font-size:20px;
+    margin-bottom:8px;
+}
+
+.math-content p{
+    color:#777b73;
+    font-size:13px;
+    line-height:1.7;
+}
+
+.math-code{
+    display:inline-block;
+
+    margin-top:10px;
+
+    padding:10px 14px;
+
+    background:#f0f0ec;
+
+    border-radius:8px;
+
+    font-family:"Space Grotesk",sans-serif;
+    font-size:12px;
+}
+
+
+/* =========================================================
+   FINAL
+========================================================= */
+
+.final{
+    padding:110px 7vw;
+
+    background:#17191c;
+    color:white;
+}
+
+.final-inner{
+    max-width:1100px;
+    margin:auto;
+}
+
+.final-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:end;
+
+    margin-bottom:50px;
+}
+
+.final-title small{
+    display:block;
+
+    color:#8c8f96;
+
+    font-family:"Space Grotesk",sans-serif;
+    font-size:11px;
+    letter-spacing:1.5px;
+
+    margin-bottom:12px;
+}
+
+.final-title h2{
+    font-family:"Space Grotesk",sans-serif;
+    font-size:55px;
+    letter-spacing:-3px;
+}
+
+.converged-big{
+    padding:10px 15px;
+
+    border:1px solid #34373e;
+    border-radius:30px;
+
+    font-family:"Space Grotesk",sans-serif;
+    font-size:11px;
+
+    color:#4ce0b3;
+}
+
+.final-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+
+    gap:15px;
+}
+
+.final-card{
+    padding:30px;
+
+    min-height:210px;
+
+    border:1px solid #34373e;
+
+    border-radius:20px;
+
+    background:#1e2025;
+}
+
+.final-card-label{
+    font-family:"Space Grotesk",sans-serif;
+
+    font-size:11px;
+    letter-spacing:1px;
+
+    color:#858890;
+
+    margin-bottom:30px;
+}
+
+.final-card h3{
+    font-family:"Space Grotesk",sans-serif;
+
+    font-size:30px;
+
+    margin-bottom:15px;
+}
+
+.final-members{
+    display:flex;
+    gap:8px;
+}
+
+.member{
+    width:38px;
+    height:38px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border-radius:10px;
+
+    font-family:"Space Grotesk",sans-serif;
+    font-size:12px;
+}
+
+.member.p{
+    background:#9b5cff;
+}
+
+.member.g{
+    background:#4ce0b3;
+    color:#123d31;
+}
+
+.final-centroid{
+    margin-top:20px;
+
+    color:#9b9ca1;
+
+    font-size:12px;
+}
+
+.final-centroid strong{
+    color:white;
+
+    font-family:"Space Grotesk",sans-serif;
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+footer{
+    padding:30px 7vw;
+
+    background:#111216;
+
+    color:#6e7178;
+
+    display:flex;
+    justify-content:space-between;
+
+    font-size:11px;
+}
+
+footer strong{
+    color:#bbbcc1;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media(max-width:1000px){
+
+    .hero{
+        grid-template-columns:1fr;
+        gap:40px;
+    }
+
+    .hero-right{
+        justify-content:flex-start;
+    }
+
+    .workspace{
+        grid-template-columns:1fr;
+    }
+
+    .info-panel{
+        min-height:450px;
+    }
+
+    .explanation-grid{
+        grid-template-columns:1fr;
+        gap:50px;
+    }
+
+}
+
+@media(max-width:700px){
+
+    .navbar{
+        padding:0 20px;
+    }
+
+    .nav-right{
+        display:none;
+    }
+
+    .hero{
+        padding:60px 20px;
+    }
+
+    .hero h1{
+        letter-spacing:-3px;
+    }
+
+    .intro-strip{
+        margin-left:20px;
+        margin-right:20px;
+        grid-template-columns:1fr;
+    }
+
+    .intro-item{
+        border-right:none;
+        border-bottom:1px solid #d8dad3;
+    }
+
+    .intro-item:last-child{
+        border-bottom:none;
+    }
+
+    .playground{
+        padding-left:20px;
+        padding-right:20px;
+    }
+
+    .step-navigation{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .step-btn:nth-child(2){
+        border-right:none;
+    }
+
+    .step-btn:nth-child(-n+3){
+        border-bottom:1px solid #d4d6cf;
+    }
+
+    .workspace{
+        border-radius:18px;
+    }
+
+    .visual-area{
+        min-height:500px;
+    }
+
+    .canvas{
+        left:20px;
+        right:20px;
+    }
+
+    .visual-message{
+        left:20px;
+        right:20px;
+    }
+
+    .explanation{
+        padding:80px 20px;
+    }
+
+    .final{
+        padding:80px 20px;
+    }
+
+    .final-top{
+        display:block;
+    }
+
+    .converged-big{
+        display:inline-block;
+        margin-top:20px;
+    }
+
+    .final-grid{
+        grid-template-columns:1fr;
+    }
+
+    footer{
+        padding:25px 20px;
+        gap:15px;
+        flex-direction:column;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+
+<!-- =========================================================
+     NAVBAR
+========================================================= -->
+
+<nav class="navbar">
+
+    <div class="logo">
+        <div class="logo-mark">K</div>
+        K-MEANS LAB
+    </div>
+
+    <div class="nav-right">
+        <span>Machine Learning</span>
+        <span class="nav-tag">UNSUPERVISED</span>
+    </div>
+
+</nav>
+
+
+<!-- =========================================================
+     HERO
+========================================================= -->
+
+<section class="hero">
+
+    <div class="hero-left">
+
+        <div class="eyebrow">
+            <span class="eyebrow-dot"></span>
+            MACHINE LEARNING / CLUSTERING
+        </div>
+
+        <h1>
+            K-MEANS<br>
+            <span>LAB.</span>
+        </h1>
+
+        <p class="hero-description">
+            มาดูว่า K-Means แบ่งข้อมูลออกเป็นกลุ่มได้อย่างไร
+            ตั้งแต่เลือกจุดศูนย์กลาง เปรียบเทียบระยะห่าง
+            ไปจนถึงการคำนวณ Centroid ใหม่และตรวจสอบว่าการจัดกลุ่มนิ่งแล้วหรือยัง
+        </p>
+
+    </div>
+
+
+    <div class="hero-right">
+
+        <div class="hero-card">
+
+            <div class="card-top">
+
+                <div class="card-label">
+                    CLUSTERING PREVIEW
+                </div>
+
+                <div class="k-number">
+                    K = 2
+                </div>
+
+            </div>
+
+            <div class="hero-graph">
+
+                <div class="graph-line"></div>
+
+                <div class="hero-point hp1"></div>
+                <div class="hero-point hp2"></div>
+                <div class="hero-point hp3"></div>
+                <div class="hero-point hp4"></div>
+                <div class="hero-point hp5"></div>
+
+                <div class="centroid c1"></div>
+                <div class="centroid c2"></div>
+
+                <span class="hero-axis-label" style="left:8%;">
+                    2
+                </span>
+
+                <span class="hero-axis-label" style="left:70%;">
+                    12
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     INTRO STRIP
+========================================================= -->
+
+<section class="intro-strip">
+
+    <div class="intro-item">
+
+        <div class="intro-number">01</div>
+
+        <h3>Choose K</h3>
+
+        <p>
+            กำหนดจำนวนกลุ่มที่ต้องการแบ่งข้อมูล
+        </p>
+
+    </div>
+
+
+    <div class="intro-item">
+
+        <div class="intro-number">02</div>
+
+        <h3>Assign Points</h3>
+
+        <p>
+            นำแต่ละจุดไปอยู่กับ Centroid ที่ใกล้ที่สุด
+        </p>
+
+    </div>
+
+
+    <div class="intro-item">
+
+        <div class="intro-number">03</div>
+
+        <h3>Update & Repeat</h3>
+
+        <p>
+            คำนวณ Centroid ใหม่และทำซ้ำจนกลุ่มไม่เปลี่ยน
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     PLAYGROUND
+========================================================= -->
+
+<section class="playground">
+
+    <div class="section-heading">
+
+        <small>INTERACTIVE DEMONSTRATION</small>
+
+        <h2>See how K-Means works.</h2>
+
+    </div>
+
+
+    <!-- STEP NAVIGATION -->
+
+    <div class="step-navigation">
+
+        <button class="step-btn active" onclick="setStep(1)">
+            <span class="step-number">01</span>
+            <span class="step-name">START</span>
+        </button>
+
+        <button class="step-btn" onclick="setStep(2)">
+            <span class="step-number">02</span>
+            <span class="step-name">COMPARE</span>
+        </button>
+
+        <button class="step-btn" onclick="setStep(3)">
+            <span class="step-number">03</span>
+            <span class="step-name">GROUP</span>
+        </button>
+
+        <button class="step-btn" onclick="setStep(4)">
+            <span class="step-number">04</span>
+            <span class="step-name">RECENTRE</span>
+        </button>
+
+        <button class="step-btn" onclick="setStep(5)">
+            <span class="step-number">05</span>
+            <span class="step-name">CONVERGE</span>
+        </button>
+
+    </div>
+
+
+    <!-- WORKSPACE -->
+
+    <div class="workspace">
+
+
+        <!-- VISUAL -->
+
+        <div class="visual-area">
+
+            <div class="visual-header">
+
+                <div class="visual-title">
+                    K-MEANS VISUALIZER
+                </div>
+
+                <div class="visual-status" id="visualStatus">
+                    INITIAL STATE
+                </div>
+
+            </div>
+
+
+            <div class="canvas" id="canvas">
+
+                <div class="axis-x"></div>
+
+                <div class="axis-label" style="left:8%;">
+                    LOW
+                </div>
+
+                <div class="axis-label" style="right:8%;">
+                    HIGH
+                </div>
+
+
+                <!-- DATA -->
+
+                <div
+                    class="data-point neutral point-2"
+                    data-value="2"
+                    id="p2">
+                </div>
+
+                <div
+                    class="data-point neutral point-4"
+                    data-value="4"
+                    id="p4">
+                </div>
+
+                <div
+                    class="data-point neutral point-10"
+                    data-value="10"
+                    id="p10">
+                </div>
+
+                <div
+                    class="data-point neutral point-12"
+                    data-value="12"
+                    id="p12">
+                </div>
+
+                <div
+                    class="data-point neutral point-14"
+                    data-value="14"
+                    id="p14">
+                </div>
+
+
+                <!-- CENTROIDS -->
+
+                <div
+                    class="centroid-point centroid1"
+                    data-label="C1 = 2"
+                    id="centroid1">
+                </div>
+
+                <div
+                    class="centroid-point centroid2"
+                    data-label="C2 = 12"
+                    id="centroid2">
+                </div>
+
+
+            </div>
+
+
+            <div class="visual-message" id="visualMessage">
+
+                <strong>START:</strong>
+                เริ่มต้นด้วยข้อมูล 5 จุด และกำหนดให้ K = 2
+                ดังนั้นเราต้องการแบ่งข้อมูลออกเป็น 2 กลุ่ม
+
+            </div>
+
+        </div>
+
+
+        <!-- INFORMATION PANEL -->
+
+        <aside class="info-panel" id="infoPanel">
+
+            <!-- JS CONTENT -->
+
+        </aside>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     EXPLANATION
+========================================================= -->
+
+<section class="explanation">
+
+    <div class="explanation-grid">
+
+
+        <div class="explanation-left">
+
+            <h2>
+                THE<br>
+                IDEA.
+            </h2>
+
+            <p>
+                K-Means ทำงานโดยใช้แนวคิดง่าย ๆ คือ
+                “จุดไหนอยู่ใกล้ Centroid ไหน ก็ให้ไปอยู่กลุ่มนั้น”
+                จากนั้นหาค่าเฉลี่ยใหม่เพื่อขยับ Centroid
+                และทำซ้ำจนกว่าการจัดกลุ่มจะไม่เปลี่ยน
+            </p>
+
+        </div>
+
+
+        <div class="math-list">
+
+
+            <div class="math-item">
+
+                <div class="math-number">
+                    01
+                </div>
+
+                <div class="math-content">
+
+                    <h3>Measure Distance</h3>
+
+                    <p>
+                        วัดระยะห่างระหว่างข้อมูลแต่ละจุดกับ Centroid
+                        โดยในตัวอย่างนี้ใช้ Euclidean Distance ใน 1 มิติ
+                    </p>
+
+                    <div class="math-code">
+                        d(x,C) = |x − C|
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="math-item">
+
+                <div class="math-number">
+                    02
+                </div>
+
+                <div class="math-content">
+
+                    <h3>Choose the Nearest</h3>
+
+                    <p>
+                        ถ้าระยะห่างจาก C1 น้อยกว่า C2
+                        จุดนั้นจะถูกจัดให้อยู่ใน Cluster 1
+                    </p>
+
+                    <div class="math-code">
+                        |4 − 2| = 2 &nbsp;&lt;&nbsp; |4 − 12| = 8
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="math-item">
+
+                <div class="math-number">
+                    03
+                </div>
+
+                <div class="math-content">
+
+                    <h3>Calculate New Centroid</h3>
+
+                    <p>
+                        เมื่อได้สมาชิกของแต่ละกลุ่มแล้ว
+                        ให้หาค่าเฉลี่ยของสมาชิกในกลุ่มนั้น
+                    </p>
+
+                    <div class="math-code">
+                        C₁ = (2 + 4) / 2 = 3
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="math-item">
+
+                <div class="math-number">
+                    04
+                </div>
+
+                <div class="math-content">
+
+                    <h3>Repeat Until Stable</h3>
+
+                    <p>
+                        หลังจากได้ Centroid ใหม่
+                        ต้องจัดกลุ่มข้อมูลอีกครั้ง
+                        ถ้าสมาชิกไม่เปลี่ยน แสดงว่า Algorithm Converged
+                    </p>
+
+                    <div class="math-code">
+                        Cluster₁ = {2,4} &nbsp; | &nbsp;
+                        Cluster₂ = {10,12,14}
+                    </div>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     FINAL RESULT
+========================================================= -->
+
+<section class="final">
+
+    <div class="final-inner">
+
+        <div class="final-top">
+
+            <div class="final-title">
+
+                <small>FINAL OUTPUT</small>
+
+                <h2>Converged.</h2>
+
+            </div>
+
+            <div class="converged-big">
+                ✓ NO MEMBERS MOVED
+            </div>
+
+        </div>
+
+
+        <div class="final-grid">
+
+
+            <div class="final-card">
+
+                <div class="final-card-label">
+                    CLUSTER 01
+                </div>
+
+                <h3>Cluster 1</h3>
+
+                <div class="final-members">
+
+                    <div class="member p">2</div>
+                    <div class="member p">4</div>
+
+                </div>
+
+                <div class="final-centroid">
+                    Final Centroid:
+                    <strong>3.0</strong>
+                </div>
+
+            </div>
+
+
+            <div class="final-card">
+
+                <div class="final-card-label">
+                    CLUSTER 02
+                </div>
+
+                <h3>Cluster 2</h3>
+
+                <div class="final-members">
+
+                    <div class="member g">10</div>
+                    <div class="member g">12</div>
+                    <div class="member g">14</div>
+
+                </div>
+
+                <div class="final-centroid">
+                    Final Centroid:
+                    <strong>12.0</strong>
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     FOOTER
+========================================================= -->
+
+<footer>
+
+    <div>
+        <strong>K-MEANS LAB</strong>
+        &nbsp; / &nbsp;
+        Machine Learning Visualization
+    </div>
+
+    <div>
+        K = 2 · 5 DATA POINTS
+    </div>
+
+</footer>
+
+
+
+<script>
+
+/* =========================================================
+   DATA
+========================================================= */
+
+const data = [2,4,10,12,14];
+
+let currentStep = 1;
+
+
+/* =========================================================
+   PANEL ELEMENT
+========================================================= */
+
+const infoPanel = document.getElementById("infoPanel");
+
+const visualStatus =
+    document.getElementById("visualStatus");
+
+const visualMessage =
+    document.getElementById("visualMessage");
+
+const centroid1 =
+    document.getElementById("centroid1");
+
+const centroid2 =
+    document.getElementById("centroid2");
+
+const points = {
+    2:document.getElementById("p2"),
+    4:document.getElementById("p4"),
+    10:document.getElementById("p10"),
+    12:document.getElementById("p12"),
+    14:document.getElementById("p14")
+};
+
+
+/* =========================================================
+   PANEL CONTENT
+========================================================= */
+
+function renderPanel(step){
+
+    if(step === 1){
+
+        infoPanel.innerHTML = `
+
+            <div class="info-step">
+                STEP 01 / 05
+            </div>
+
+            <h3>
+                Start with<br>
+                the data.
+            </h3>
+
+            <p class="info-description">
+                เรามีข้อมูล 5 จุดที่ยังไม่ได้ถูกแบ่งกลุ่ม
+                และกำหนดให้ K = 2
+                หมายความว่าเราต้องการสร้าง 2 Cluster
+            </p>
+
+
+            <div class="info-box">
+
+                <div class="info-box-title">
+                    DATASET
+                </div>
+
+                <div class="dataset">
+
+                    ${data.map(x =>
+                        `<div class="data-chip">${x}</div>`
+                    ).join("")}
+
+                </div>
+
+            </div>
+
+
+            <div class="info-box">
+
+                <div class="info-box-title">
+                    INITIAL CENTROIDS
+                </div>
+
+                <div class="result-row">
+                    <span>C₁</span>
+                    <span class="result-value purple">2</span>
+                </div>
+
+                <div class="result-row">
+                    <span>C₂</span>
+                    <span class="result-value green">12</span>
+                </div>
+
+            </div>
+
+
+            <div class="info-box">
+
+                <div class="info-box-title">
+                    WHAT HAPPENS?
+                </div>
+
+                <p style="font-size:12px;line-height:1.7;color:#73776f;">
+                    ตอนนี้เรายังไม่รู้ว่าแต่ละจุดควรอยู่กลุ่มไหน
+                    ขั้นต่อไปคือเปรียบเทียบระยะห่างของทุกจุด
+                    กับ C₁ และ C₂
+                </p>
+
+            </div>
+
+
+            <div class="action-area">
+
+                <button
+                    class="action-btn"
+                    onclick="nextStep()">
+                    COMPARE DISTANCES →
+                </button>
+
+                <button
+                    class="action-btn reset-btn"
+                    onclick="setStep(1)">
+                    ↻
+                </button>
+
+            </div>
+        `;
+
+        return;
+    }
+
+
+    if(step === 2){
+
+        infoPanel.innerHTML = `
+
+            <div class="info-step">
+                STEP 02 / 05
+            </div>
+
+            <h3>
+                Compare<br>
+                distances.
+            </h3>
+
+            <p class="info-description">
+                ทุกจุดต้องเปรียบเทียบระยะห่างจาก
+                <b>C₁</b> และ <b>C₂</b>
+                แล้วเลือก Centroid ที่อยู่ใกล้ที่สุด
+            </p>
+
+
+            <div class="info-box">
+
+                <div class="info-box-title">
+                    DISTANCE TABLE
+                </div>
+
+                <table class="distance-table">
+
+                    <thead>
+                        <tr>
+                            <th>DATA</th>
+                            <th>C₁</th>
+                            <th>C₂</th>
+                            <th>CHOOSE</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        <tr>
+                            <td>2</td>
+                            <td>0</td>
+                            <td>10</td>
+                            <td class="choose purple">C₁</td>
+                        </tr>
+
+                        <tr>
+                            <td>4</td>
+                            <td>2</td>
+                            <td>8</td>
+                            <td class="choose purple">C₁</td>
+                        </tr>
+
+                        <tr>
+                            <td>10</td>
+                            <td>8</td>
+                            <td>2</td>
+                            <td class="choose green">C₂</td>
+                        </tr>
+
+                        <tr>
+                            <td>12</td>
+                            <td>10</td>
+                            <td>0</td>
+                            <td class="choose green">C₂</td>
+                        </tr>
+
+                        <tr>
+                            <td>14</td>
+                            <td>12</td>
+                            <td>2</td>
+                            <td class="choose green">C₂</td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+
+            <div class="info-box">
+
+                <div class="info-box-title">
+                    THE RULE
+                </div>
+
+                <p style="font-size:12px;line-height:1.7;color:#73776f;">
+                    ระยะที่น้อยกว่า
+                    <b>→</b>
+                    เลือก Cluster นั้น
+                </p>
+
+            </div>
+
+
+            <div class="action-area">
+
+                <button
+                    class="action-btn"
+                    onclick="nextStep()">
+                    FORM THE GROUPS →
+                </button>
+
+                <button
+                    class="action-btn reset-btn"
+                    onclick="setStep(1)">
+                    ↻
+                </button>
+
+            </div>
+
+        `;
+
+        return;
+    }
+
+
+    if(step === 3){
+
+        infoPanel.innerHTML = `
+
+            <div class="info-step">
+                STEP 03 / 05
+            </div>
+
+            <h3>
+                Form the<br>
+                clusters.
+            </h3>
+
+            <p class="info-description">
+                เมื่อเปรียบเทียบระยะห่างครบทุกจุดแล้ว
+                เราจะรู้ว่าสมาชิกแต่ละจุดควรอยู่ใน Cluster ใด
+            </p>
+
+
+            <div class="info-box">
+
+                <div class="info-box-title">
+                    CLUSTER 1
+                </div>
+
+                <div class="dataset">
+
+                    <div class="data-chip"
+                         style="background:#f0e8ff;color:#7041b9;">
+                        2
+                    </div>
+
+                    <div class="data-chip"
+                         style="background:#f0e8ff;color:#7041b9;">
+                        4
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="info-box">
+
+                <div class="info-box-title">
+                    CLUSTER 2
+                </div>
+
+                <div class="dataset">
+
+                    <div class="data-chip"
+                         style="background:#e7f8f2;color:#237b63;">
+                        10
+                    </div>
+
+                    <div class="data-chip"
+                         style="background:#e7f8f2;color:#237b63;">
+                        12
+                    </div>
+
+                    <div class="data-chip"
+                         style="background:#e7f8f2;color:#237b63;">
+                        14
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="info-box">
+
+                <div class="info-box-title">
+                    RESULT
+                </div>
+
+                <div class="result-row">
+                    <span>Cluster 1</span>
+                    <span class="result-value purple">2 points</span>
+                </div>
+
+                <div class="result-row">
+                    <span>Cluster 2</span>
+                    <span class="result-value green">3 points</span>
+                </div>
+
+            </div>
+
+
+            <div class="action-area">
+
+                <button
+                    class="action-btn"
+                    onclick="nextStep()">
+                    RECALCULATE CENTROIDS →
+                </button>
+
+                <button
+                    class="action-btn reset-btn"
+                    onclick="setStep(1)">
+                    ↻
+                </button>
+
+            </div>
+
+        `;
+
+        return;
+    }
+
+
+    if(step === 4){
+
+        infoPanel.innerHTML = `
+
+            <div class="info-step">
+                STEP 04 / 05
+            </div>
+
+            <h3>
+                Move the<br>
+                centers.
+            </h3>
+
+            <p class="info-description">
+                ตอนนี้รู้สมาชิกของแต่ละ Cluster แล้ว
+                เราจะคำนวณค่าเฉลี่ยของสมาชิก
+                เพื่อหา Centroid ใหม่
+            </p>
+
+
+            <div class="info-box">
+
+                <div class="info-box-title">
+                    NEW CENTROID
+                </div>
+
+                <div class="formula">
+                    C₁ = (2 + 4) / 2 = 3.0
+                </div>
+
+                <div class="formula green-formula">
+                    C₂ = (10 + 12 + 14) / 3 = 12.0
+                </div>
+
+            </div>
+
+
+            <div class="info-box">
+
+                <div class="info-box-title">
+                    WHAT CHANGED?
+                </div>
+
+                <div class="result-row">
+                    <span>C₁</span>
+                    <span>
+                        <span style="color:#999;">2</span>
+                        →
+                        <span class="result-value purple">3</span>
+                    </span>
+                </div>
+
+                <div class="result-row">
+                    <span>C₂</span>
+                    <span>
+                        <span style="color:#999;">12</span>
+                        →
+                        <span class="result-value green">12</span>
+                    </span>
+                </div>
+
+            </div>
+
+
+            <div class="info-box">
+
+                <div class="info-box-title">
+                    IMPORTANT
+                </div>
+
+                <p style="font-size:12px;line-height:1.7;color:#73776f;">
+                    Centroid ไม่ใช่สมาชิกใหม่
+                    แต่เป็นค่าเฉลี่ยที่ใช้แทน “จุดศูนย์กลาง”
+                    ของแต่ละ Cluster
+                </p>
+
+            </div>
+
+
+            <div class="action-area">
+
+                <button
+                    class="action-btn"
+                    onclick="nextStep()">
+                    CHECK AGAIN →
+                </button>
+
+                <button
+                    class="action-btn reset-btn"
+                    onclick="setStep(1)">
+                    ↻
+                </button>
+
+            </div>
+
+        `;
+
+        return;
+    }
+
+
+    if(step === 5){
+
+        infoPanel.innerHTML = `
+
+            <div class="info-step">
+                STEP 05 / 05
+            </div>
+
+            <h3>
+                Check &<br>
+                converge.
+            </h3>
+
+            <p class="info-description">
+                เรานำ Centroid ใหม่
+                C₁ = 3 และ C₂ = 12
+                มาจัดกลุ่มข้อมูลอีกครั้ง
+            </p>
+
+
+            <div class="info-box">
+
+                <div class="info-box-title">
+                    SECOND CHECK
+                </div>
+
+                <table class="distance-table">
+
+                    <thead>
+                        <tr>
+                            <th>DATA</th>
+                            <th>C₁</th>
+                            <th>C₂</th>
+                            <th>RESULT</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        <tr>
+                            <td>2</td>
+                            <td>1</td>
+                            <td>10</td>
+                            <td class="choose purple">C₁</td>
+                        </tr>
+
+                        <tr>
+                            <td>4</td>
+                            <td>1</td>
+                            <td>8</td>
+                            <td class="choose purple">C₁</td>
+                        </tr>
+
+                        <tr>
+                            <td>10</td>
+                            <td>7</td>
+                            <td>2</td>
+                            <td class="choose green">C₂</td>
+                        </tr>
+
+                        <tr>
+                            <td>12</td>
+                            <td>9</td>
+                            <td>0</td>
+                            <td class="choose green">C₂</td>
+                        </tr>
+
+                        <tr>
+                            <td>14</td>
+                            <td>11</td>
+                            <td>2</td>
+                            <td class="choose green">C₂</td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+
+            <div class="converged">
+
+                <b>✓ NO CHANGE</b><br>
+
+                สมาชิกของทั้งสอง Cluster
+                เหมือนเดิมหลังจากตรวจสอบอีกครั้ง
+                ดังนั้น K-Means จึงหยุดการทำงาน
+                เพราะเกิดการ Convergence
+
+            </div>
+
+
+            <div class="action-area">
+
+                <button
+                    class="action-btn"
+                    onclick="setStep(1)">
+                    ↻ START AGAIN
+                </button>
+
+            </div>
+
+        `;
+
+    }
+
+}
+
+
+/* =========================================================
+   SET STEP
+========================================================= */
+
+function setStep(step){
+
+    currentStep = step;
+
+    document
+        .querySelectorAll(".step-btn")
+        .forEach((btn,index)=>{
+
+            btn.classList.toggle(
+                "active",
+                index + 1 === step
+            );
+
+        });
+
+
+    updateVisual(step);
+
+    renderPanel(step);
+
+}
+
+
+/* =========================================================
+   NEXT
+========================================================= */
+
+function nextStep(){
+
+    if(currentStep < 5){
+
+        setStep(currentStep + 1);
+
+    }
+
+}
+
+
+/* =========================================================
+   UPDATE VISUAL
+========================================================= */
+
+function updateVisual(step){
+
+    /* RESET POINT COLORS */
+
+    Object.values(points).forEach(point=>{
+
+        point.classList.remove(
+            "cluster1",
+            "cluster2"
+        );
+
+        point.classList.add("neutral");
+
+    });
+
+
+    /* STEP 1 */
+
+    if(step === 1){
+
+        visualStatus.textContent =
+            "INITIAL STATE";
+
+        visualMessage.innerHTML =
+            "<strong>START:</strong> " +
+            "ข้อมูลทั้งหมดยังไม่ได้ถูกแบ่งกลุ่ม " +
+            "และเราเลือก C₁ = 2 กับ C₂ = 12 เป็นจุดศูนย์กลางเริ่มต้น.";
+
+        centroid1.style.left = "13%";
+        centroid1.style.top = "62%";
+
+        centroid2.style.left = "73%";
+        centroid2.style.top = "42%";
+
+        centroid1.dataset.label = "C1 = 2";
+        centroid2.dataset.label = "C2 = 12";
+
+        return;
+    }
+
+
+    /* STEP 2 */
+
+    if(step === 2){
+
+        visualStatus.textContent =
+            "COMPARING DISTANCES";
+
+        visualMessage.innerHTML =
+            "<strong>COMPARE:</strong> " +
+            "แต่ละจุดต้องวัดระยะห่างจาก C₁ และ C₂ " +
+            "แล้วเลือกค่าที่น้อยกว่า.";
+
+        points[2].classList.remove("neutral");
+        points[2].classList.add("cluster1");
+
+        points[4].classList.remove("neutral");
+        points[4].classList.add("cluster1");
+
+        points[10].classList.remove("neutral");
+        points[10].classList.add("cluster2");
+
+        points[12].classList.remove("neutral");
+        points[12].classList.add("cluster2");
+
+        points[14].classList.remove("neutral");
+        points[14].classList.add("cluster2");
+
+        return;
+    }
+
+
+    /* STEP 3 */
+
+    if(step === 3){
+
+        visualStatus.textContent =
+            "GROUPING";
+
+        visualMessage.innerHTML =
+            "<strong>GROUP:</strong> " +
+            "จุด 2 และ 4 อยู่ Cluster 1 " +
+            "ส่วน 10, 12 และ 14 อยู่ Cluster 2.";
+
+        points[2].classList.remove("neutral");
+        points[2].classList.add("cluster1");
+
+        points[4].classList.remove("neutral");
+        points[4].classList.add("cluster1");
+
+        points[10].classList.remove("neutral");
+        points[10].classList.add("cluster2");
+
+        points[12].classList.remove("neutral");
+        points[12].classList.add("cluster2");
+
+        points[14].classList.remove("neutral");
+        points[14].classList.add("cluster2");
+
+        return;
+    }
+
+
+    /* STEP 4 */
+
+    if(step === 4){
+
+        visualStatus.textContent =
+            "RECALCULATING CENTROIDS";
+
+        visualMessage.innerHTML =
+            "<strong>MOVE:</strong> " +
+            "คำนวณค่าเฉลี่ยของสมาชิกแต่ละกลุ่ม " +
+            "C₁ ขยับจาก 2 → 3 ส่วน C₂ ยังคงอยู่ที่ 12.";
+
+        points[2].classList.remove("neutral");
+        points[2].classList.add("cluster1");
+
+        points[4].classList.remove("neutral");
+        points[4].classList.add("cluster1");
+
+        points[10].classList.remove("neutral");
+        points[10].classList.add("cluster2");
+
+        points[12].classList.remove("neutral");
+        points[12].classList.add("cluster2");
+
+        points[14].classList.remove("neutral");
+        points[14].classList.add("cluster2");
+
+
+        centroid1.style.left = "20%";
+        centroid1.style.top = "55%";
+
+        centroid2.style.left = "73%";
+        centroid2.style.top = "42%";
+
+        centroid1.dataset.label = "NEW C1 = 3";
+        centroid2.dataset.label = "C2 = 12";
+
+        return;
+    }
+
+
+    /* STEP 5 */
+
+    if(step === 5){
+
+        visualStatus.textContent =
+            "CONVERGED";
+
+        visualMessage.innerHTML =
+            "<strong>CONVERGED:</strong> " +
+            "เมื่อตรวจสอบด้วย Centroid ใหม่แล้ว " +
+            "สมาชิกทุกจุดยังอยู่กลุ่มเดิม จึงหยุดการทำงาน.";
+
+        points[2].classList.remove("neutral");
+        points[2].classList.add("cluster1");
+
+        points[4].classList.remove("neutral");
+        points[4].classList.add("cluster1");
+
+        points[10].classList.remove("neutral");
+        points[10].classList.add("cluster2");
+
+        points[12].classList.remove("neutral");
+        points[12].classList.add("cluster2");
+
+        points[14].classList.remove("neutral");
+        points[14].classList.add("cluster2");
+
+
+        centroid1.style.left = "20%";
+        centroid1.style.top = "55%";
+
+        centroid2.style.left = "73%";
+        centroid2.style.top = "42%";
+
+        centroid1.dataset.label = "C1 = 3";
+        centroid2.dataset.label = "C2 = 12";
+
+    }
+
+}
+
+
+/* =========================================================
+   INITIALIZE
+========================================================= */
+
+setStep(1);
+
+</script>
+
+</body>
+</html>
