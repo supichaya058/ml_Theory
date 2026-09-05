@@ -469,8 +469,7 @@ button{
 
 
 /* =========================================================
-   METHOD — HOW IT WORKS
-   HORIZONTAL RECTANGLE BLOCKS
+   METHOD
 ========================================================= */
 
 .method{
@@ -503,13 +502,7 @@ button{
     font-size:11px;
 }
 
-
-/* =========================================================
-   METHOD CONTAINER
-========================================================= */
-
 .method-list{
-
     display:grid;
 
     grid-template-columns:
@@ -518,16 +511,9 @@ button{
     border-top:1px solid #171717;
 
     border-left:1px solid #171717;
-
 }
 
-
-/* =========================================================
-   METHOD BLOCK
-========================================================= */
-
 .method-item{
-
     position:relative;
 
     min-height:230px;
@@ -552,16 +538,9 @@ button{
         background .25s ease,
         color .25s ease,
         transform .25s ease;
-
 }
 
-
-/* =========================================================
-   NUMBER
-========================================================= */
-
 .method-number{
-
     font-size:11px;
 
     font-weight:900;
@@ -569,16 +548,9 @@ button{
     letter-spacing:2px;
 
     color:#777269;
-
 }
 
-
-/* =========================================================
-   MAIN NAME
-========================================================= */
-
 .method-name{
-
     margin-top:auto;
 
     font-size:22px;
@@ -588,16 +560,9 @@ button{
     letter-spacing:-.8px;
 
     line-height:1;
-
 }
 
-
-/* =========================================================
-   DESCRIPTION
-========================================================= */
-
 .method-description{
-
     margin-top:14px;
 
     max-width:180px;
@@ -607,20 +572,12 @@ button{
     line-height:1.7;
 
     color:#777269;
-
 }
 
-
-/* =========================================================
-   ARROW
-========================================================= */
-
 .method-arrow{
-
     position:absolute;
 
     right:20px;
-
     top:20px;
 
     font-size:18px;
@@ -630,33 +587,19 @@ button{
     transition:.25s;
 }
 
-
-/* =========================================================
-   HOVER
-========================================================= */
-
 .method-item:hover{
-
     background:#e5e1d8;
 
     transform:translateY(-5px);
 
     z-index:2;
-
 }
 
 .method-item:hover .method-arrow{
-
     transform:translateX(5px);
 }
 
-
-/* =========================================================
-   ACTIVE
-========================================================= */
-
 .method-item.active{
-
     background:#d7ff45;
 
     color:#171717;
@@ -670,22 +613,14 @@ button{
 }
 
 .method-item.active .method-number{
-
     color:#171717;
 }
 
 .method-item.active .method-description{
-
     color:#343434;
 }
 
-
-/* =========================================================
-   TOP MARK
-========================================================= */
-
 .method-item::before{
-
     content:"";
 
     position:absolute;
@@ -697,13 +632,10 @@ button{
     height:4px;
 
     background:transparent;
-
 }
 
 .method-item.active::before{
-
     background:#171717;
-
 }
 
 
@@ -1005,14 +937,12 @@ button{
 }
 
 .main-centroid.c2{
-
     border-color:#ff785a;
 
     color:#ff785a;
 }
 
 .centroid-caption{
-
     position:absolute;
 
     bottom:-19px;
@@ -1030,7 +960,6 @@ button{
 ========================================================= */
 
 .side-panel{
-
     background:#202020;
 
     border:1px solid #383838;
@@ -1047,7 +976,6 @@ button{
 }
 
 .side-top small{
-
     color:#777;
 
     font-size:9px;
@@ -1056,7 +984,6 @@ button{
 }
 
 .side-top h3{
-
     font-size:32px;
 
     line-height:1;
@@ -1067,7 +994,6 @@ button{
 }
 
 .side-text{
-
     margin-top:20px;
 
     font-size:12px;
@@ -1083,12 +1009,10 @@ button{
 ========================================================= */
 
 .decisions{
-
     margin-top:25px;
 }
 
 .decision-row{
-
     display:grid;
 
     grid-template-columns:
@@ -1106,7 +1030,6 @@ button{
 }
 
 .decision-number{
-
     width:28px;
     height:28px;
 
@@ -1121,12 +1044,10 @@ button{
 }
 
 .decision-row strong{
-
     font-size:11px;
 }
 
 .decision-row small{
-
     display:block;
 
     color:#777;
@@ -1135,7 +1056,6 @@ button{
 }
 
 .decision-result{
-
     font-size:9px;
 
     font-weight:900;
@@ -1148,7 +1068,6 @@ button{
 }
 
 .decision-result.red{
-
     background:#ff785a;
 }
 
@@ -1158,7 +1077,6 @@ button{
 ========================================================= */
 
 .formula{
-
     margin-top:25px;
 
     padding-top:20px;
@@ -1167,7 +1085,6 @@ button{
 }
 
 .formula small{
-
     color:#777;
 
     font-size:9px;
@@ -1176,7 +1093,6 @@ button{
 }
 
 .formula strong{
-
     display:block;
 
     font-size:19px;
@@ -1192,7 +1108,6 @@ button{
 ========================================================= */
 
 .lab-controls{
-
     margin-top:20px;
 
     display:flex;
@@ -1203,14 +1118,12 @@ button{
 }
 
 .progress{
-
     display:flex;
 
     gap:5px;
 }
 
 .progress span{
-
     width:32px;
     height:3px;
 
@@ -1218,19 +1131,16 @@ button{
 }
 
 .progress span.active{
-
     background:#d7ff45;
 }
 
 .controls{
-
     display:flex;
 
     gap:8px;
 }
 
 .btn{
-
     border:1px solid #4a4a4a;
 
     background:transparent;
@@ -1247,14 +1157,12 @@ button{
 }
 
 .btn:hover{
-
     background:#eee;
 
     color:#171717;
 }
 
 .btn.next{
-
     background:#d7ff45;
 
     border-color:#d7ff45;
@@ -1270,14 +1178,12 @@ button{
 ========================================================= */
 
 .theory{
-
     padding:120px 0;
 
     border-bottom:1px solid #d9d5cc;
 }
 
 .theory-layout{
-
     display:grid;
 
     grid-template-columns:
@@ -1288,7 +1194,6 @@ button{
 }
 
 .theory-heading h2{
-
     font-size:55px;
 
     line-height:.95;
@@ -1297,7 +1202,6 @@ button{
 }
 
 .theory-heading p{
-
     margin-top:20px;
 
     color:#777269;
@@ -1308,12 +1212,10 @@ button{
 }
 
 .theory-content{
-
     border-top:1px solid #222;
 }
 
 .theory-row{
-
     display:grid;
 
     grid-template-columns:
@@ -1329,7 +1231,6 @@ button{
 }
 
 .theory-row-number{
-
     font-size:10px;
 
     font-weight:800;
@@ -1338,12 +1239,10 @@ button{
 }
 
 .theory-row h3{
-
     font-size:18px;
 }
 
 .theory-row p{
-
     font-size:11px;
 
     color:#777269;
@@ -1352,7 +1251,6 @@ button{
 }
 
 .theory-formula{
-
     grid-column:
         2 / 4;
 
@@ -1373,7 +1271,6 @@ button{
 ========================================================= */
 
 .result{
-
     padding:120px 0;
 
     background:#d7ff45;
@@ -1382,7 +1279,6 @@ button{
 }
 
 .result-header{
-
     display:flex;
 
     justify-content:space-between;
@@ -1393,7 +1289,6 @@ button{
 }
 
 .result-header h2{
-
     font-size:
         clamp(45px,7vw,90px);
 
@@ -1403,7 +1298,6 @@ button{
 }
 
 .result-status{
-
     border:1px solid #171717;
 
     padding:8px 13px;
@@ -1416,7 +1310,6 @@ button{
 }
 
 .result-grid{
-
     display:grid;
 
     grid-template-columns:1fr 1fr;
@@ -1425,7 +1318,6 @@ button{
 }
 
 .result-card{
-
     border:1px solid #171717;
 
     padding:35px;
@@ -1434,28 +1326,24 @@ button{
 }
 
 .result-card small{
-
     font-size:9px;
 
     letter-spacing:2px;
 }
 
 .result-card h3{
-
     font-size:27px;
 
     margin:15px 0;
 }
 
 .result-values{
-
     display:flex;
 
     gap:8px;
 }
 
 .result-value{
-
     width:45px;
     height:45px;
 
@@ -1470,7 +1358,6 @@ button{
 }
 
 .result-centroid{
-
     margin-top:30px;
 
     padding-top:15px;
@@ -1481,7 +1368,6 @@ button{
 }
 
 .result-centroid strong{
-
     font-size:20px;
 }
 
@@ -1491,7 +1377,6 @@ button{
 ========================================================= */
 
 footer{
-
     background:#171717;
 
     color:#aaa59d;
@@ -1502,7 +1387,6 @@ footer{
 }
 
 .footer-inner{
-
     display:flex;
 
     justify-content:space-between;
@@ -1511,7 +1395,6 @@ footer{
 }
 
 .footer-title{
-
     color:#f1eee7;
 
     font-weight:800;
@@ -1525,34 +1408,26 @@ footer{
 @media(max-width:900px){
 
     .hero-grid{
-
         grid-template-columns:1fr;
     }
 
     .hero{
-
         padding-top:130px;
 
         padding-bottom:80px;
     }
 
     .hero-visual{
-
         height:430px;
     }
 
     .intro-grid{
-
         grid-template-columns:1fr;
 
         gap:25px;
     }
 
-
-    /* HOW IT WORKS */
-
     .method-list{
-
         grid-template-columns:
             repeat(5,190px);
 
@@ -1564,23 +1439,18 @@ footer{
     }
 
     .method-item{
-
         min-height:220px;
     }
 
-
     .lab-grid{
-
         grid-template-columns:1fr;
     }
 
     .side-panel{
-
         min-height:auto;
     }
 
     .theory-layout{
-
         grid-template-columns:1fr;
     }
 
@@ -1594,49 +1464,38 @@ footer{
 @media(max-width:600px){
 
     .nav-right{
-
         display:none;
     }
 
     .hero h1{
-
         font-size:70px;
 
         letter-spacing:-5px;
     }
 
     .hero-meta{
-
         gap:25px;
     }
 
     .hero-visual{
-
         height:350px;
     }
 
-
-    /* HOW IT WORKS */
-
     .method{
-
         padding:80px 0;
     }
 
     .method-top{
-
         display:block;
 
         margin-bottom:30px;
     }
 
     .method-note{
-
         margin-top:10px;
     }
 
     .method-list{
-
         grid-template-columns:
             repeat(5,160px);
 
@@ -1650,79 +1509,64 @@ footer{
     }
 
     .method-item{
-
         min-height:195px;
 
         padding:20px;
     }
 
     .method-name{
-
         font-size:18px;
     }
 
     .method-description{
-
         font-size:9px;
     }
 
-
     .canvas{
-
         height:450px;
     }
 
     .lab-header{
-
         align-items:start;
     }
 
     .lab-header h2{
-
         font-size:50px;
     }
 
     .lab-step{
-
         display:none;
     }
 
     .result-grid{
-
         grid-template-columns:1fr;
     }
 
     .result-header{
-
         display:block;
     }
 
     .result-status{
-
         display:inline-block;
 
         margin-top:20px;
     }
 
     .theory-row{
-
         grid-template-columns:
             35px
             1fr;
     }
 
     .theory-row p{
-
         grid-column:2;
     }
 
     .theory-formula{
-
         grid-column:2;
     }
 
     .footer-inner{
-
         display:block;
     }
 
@@ -1736,7 +1580,6 @@ footer{
 @keyframes appear{
 
     from{
-
         opacity:0;
 
         transform:
@@ -1744,7 +1587,6 @@ footer{
     }
 
     to{
-
         opacity:1;
 
         transform:
@@ -1762,12 +1604,10 @@ footer{
 }
 
 .hero-description{
-
     animation-delay:.15s;
 }
 
 .hero-meta{
-
     animation-delay:.3s;
 }
 
@@ -2033,6 +1873,7 @@ footer{
         <h2>
 
             K-Means
+
             <span>
                 ไม่ได้รู้คำตอบล่วงหน้า
             </span>
@@ -2077,12 +1918,8 @@ footer{
     </div>
 
 
-    <!-- HORIZONTAL BLOCKS -->
-
     <div class="method-list">
 
-
-        <!-- 01 -->
 
         <div
             class="method-item active"
@@ -2109,8 +1946,6 @@ footer{
         </div>
 
 
-        <!-- 02 -->
-
         <div
             class="method-item"
             onclick="setStep(2)"
@@ -2135,8 +1970,6 @@ footer{
 
         </div>
 
-
-        <!-- 03 -->
 
         <div
             class="method-item"
@@ -2163,8 +1996,6 @@ footer{
         </div>
 
 
-        <!-- 04 -->
-
         <div
             class="method-item"
             onclick="setStep(4)"
@@ -2189,8 +2020,6 @@ footer{
 
         </div>
 
-
-        <!-- 05 -->
 
         <div
             class="method-item"
@@ -2850,9 +2679,15 @@ function updateGraph(step){
 
 
     const points = [
-        p2,p4,p10,p12,p14
+        p2,
+        p4,
+        p10,
+        p12,
+        p14
     ];
 
+
+    /* Reset point classes */
 
     points.forEach(p => {
 
@@ -2862,12 +2697,15 @@ function updateGraph(step){
     });
 
 
+    /* Reset zones */
+
     zone1.classList.remove("show");
+
     zone2.classList.remove("show");
 
 
     /* =====================================================
-       STEP 1
+       STEP 1 — START
     ===================================================== */
 
     if(step === 1){
@@ -2903,7 +2741,7 @@ function updateGraph(step){
 
 
     /* =====================================================
-       STEP 2
+       STEP 2 — COMPARE
     ===================================================== */
 
     if(step === 2){
@@ -2939,22 +2777,35 @@ function updateGraph(step){
 
 
     /* =====================================================
-       STEP 3
+       STEP 3 — ASSIGN
     ===================================================== */
 
     if(step >= 3){
 
         zone1.classList.add("show");
+
         zone2.classList.add("show");
 
 
+        /* Cluster 1 */
+
         p2.classList.add("c1");
+
         p4.classList.add("c1");
 
+
+        /* Cluster 2 */
+
         p10.classList.add("c2");
+
         p12.classList.add("c2");
+
         p14.classList.add("c2");
 
+
+        /* -------------------------
+           Cluster 1 points
+        ------------------------- */
 
         p2.style.left =
             x(2) + "%";
@@ -2969,6 +2820,10 @@ function updateGraph(step){
         p4.style.top =
             "25%";
 
+
+        /* -------------------------
+           Cluster 2 points
+        ------------------------- */
 
         p10.style.left =
             x(10) + "%";
@@ -2991,20 +2846,27 @@ function updateGraph(step){
             "78%";
 
 
+        /* =================================================
+           FIX:
+           C2 = 12 จริง แต่ไม่ให้ทับจุดข้อมูล 12
+        ================================================= */
+
         c2.style.left =
             x(12) + "%";
 
         c2.style.top =
-            "78%";
+            "65%";
 
     }
 
 
     /* =====================================================
-       STEP 4 / 5
+       STEP 4 — RECALCULATE
     ===================================================== */
 
     if(step >= 4){
+
+        /* C1 moves from 2 → 3 */
 
         c1.style.left =
             x(3) + "%";
@@ -3012,16 +2874,40 @@ function updateGraph(step){
         c1.style.top =
             "25%";
 
+
+        /* C2 remains at 12 */
+
+        c2.style.left =
+            x(12) + "%";
+
+        c2.style.top =
+            "65%";
+
     }
 
 
+    /* =====================================================
+       STEP 5 — CONVERGE
+    ===================================================== */
+
     if(step === 5){
+
+        /* Final C1 */
 
         c1.style.left =
             x(3) + "%";
 
+        c1.style.top =
+            "25%";
+
+
+        /* Final C2 */
+
         c2.style.left =
             x(12) + "%";
+
+        c2.style.top =
+            "65%";
 
     }
 
@@ -3084,6 +2970,7 @@ function updatePanel(step){
         text.innerText =
             "เรามีข้อมูล 5 จุด และต้องการแบ่งออกเป็น 2 กลุ่ม ดังนั้น K = 2 และกำหนด Centroid เริ่มต้นเป็น C1 = 2 และ C2 = 12";
 
+
         formula.innerHTML = `
 
             <small>
@@ -3117,6 +3004,7 @@ function updatePanel(step){
         text.innerText =
             "นำข้อมูลแต่ละจุดไปวัดระยะห่างจาก Centroid ทั้งสองจุด โดยใช้สูตร d(x,C) = |x − C| แล้วดูว่าจุดนั้นอยู่ใกล้ C1 หรือ C2 มากกว่า";
 
+
         formula.innerHTML = `
 
             <small>
@@ -3149,6 +3037,7 @@ function updatePanel(step){
 
         text.innerText =
             "ตอนนี้เรารู้ระยะห่างแล้ว จุดแต่ละจุดจะถูกส่งไปยัง Cluster ที่มี Centroid ใกล้ที่สุด";
+
 
         decisions.innerHTML = `
 
@@ -3314,6 +3203,7 @@ function updatePanel(step){
         text.innerText =
             "หลังจากจัดกลุ่มแล้ว เรานำสมาชิกในแต่ละ Cluster มาหาค่าเฉลี่ย เพื่อหาตำแหน่ง Centroid ใหม่";
 
+
         formula.innerHTML = `
 
             <small>
@@ -3349,6 +3239,7 @@ function updatePanel(step){
         text.innerText =
             "เมื่อนำ Centroid ใหม่ C1 = 3 และ C2 = 12 ไปคำนวณอีกครั้ง สมาชิกของแต่ละ Cluster ยังเหมือนเดิม ดังนั้น Algorithm จึงหยุด";
 
+
         formula.innerHTML = `
 
             <small>
@@ -3361,10 +3252,12 @@ function updatePanel(step){
 
         `;
 
+
         nextBtn.innerText =
             "DONE ✓";
 
     }
+
     else{
 
         nextBtn.innerText =
@@ -3394,7 +3287,9 @@ function updateProgress(step){
 
 
     const items =
-        document.querySelectorAll(".method-item");
+        document.querySelectorAll(
+            ".method-item"
+        );
 
 
     items.forEach((item,index)=>{
@@ -3421,7 +3316,9 @@ function setStep(step){
     if(step > 5)
         step = 5;
 
+
     currentStep = step;
+
 
     updateGraph(step);
 
@@ -3440,7 +3337,9 @@ function nextStep(){
 
     if(currentStep < 5){
 
-        setStep(currentStep + 1);
+        setStep(
+            currentStep + 1
+        );
 
     }
 
@@ -3455,7 +3354,9 @@ function prevStep(){
 
     if(currentStep > 1){
 
-        setStep(currentStep - 1);
+        setStep(
+            currentStep - 1
+        );
 
     }
 
