@@ -3253,8 +3253,8 @@ function updatePanel(step){
         `;
 
 
-        nextBtn.innerText =
-            "DONE ✓";
+        nextBtn.innerText = 
+    "RESET ↻";
 
     }
 
@@ -3333,13 +3333,16 @@ function setStep(step){
    NEXT
 ========================================================= */
 
-function nextStep(){
+function nextStep(){ 
 
-    if(currentStep < 5){
+    if(currentStep < 5){ 
 
-        setStep(
-            currentStep + 1
-        );
+        setStep(currentStep + 1); 
+
+    } 
+    else{ 
+
+        setStep(1); 
 
     }
 
