@@ -469,11 +469,12 @@ button{
 
 
 /* =========================================================
-   METHOD
+   METHOD — HOW IT WORKS
+   HORIZONTAL RECTANGLE BLOCKS
 ========================================================= */
 
 .method{
-    padding:100px 0;
+    padding:110px 0;
 
     border-bottom:1px solid #d9d5cc;
 }
@@ -485,15 +486,15 @@ button{
 
     align-items:end;
 
-    margin-bottom:70px;
+    margin-bottom:45px;
 }
 
 .method-title{
     font-size:12px;
 
-    font-weight:800;
+    font-weight:900;
 
-    letter-spacing:2px;
+    letter-spacing:3px;
 }
 
 .method-note{
@@ -502,68 +503,207 @@ button{
     font-size:11px;
 }
 
-.method-list{
-    border-top:1px solid #222;
-}
 
-.method-item{
+/* =========================================================
+   METHOD CONTAINER
+========================================================= */
+
+.method-list{
+
     display:grid;
 
     grid-template-columns:
-        90px
-        230px
-        1fr
-        90px;
+        repeat(5,1fr);
 
-    align-items:center;
+    border-top:1px solid #171717;
 
-    gap:20px;
+    border-left:1px solid #171717;
 
-    min-height:110px;
+}
 
-    border-bottom:1px solid #cbc7bf;
 
-    transition:.3s;
+/* =========================================================
+   METHOD BLOCK
+========================================================= */
+
+.method-item{
+
+    position:relative;
+
+    min-height:230px;
+
+    padding:25px;
+
+    background:#f1eee7;
+
+    border-right:1px solid #171717;
+
+    border-bottom:1px solid #171717;
 
     cursor:pointer;
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:space-between;
+
+    transition:
+        background .25s ease,
+        color .25s ease,
+        transform .25s ease;
+
 }
 
-.method-item:hover{
-    background:#e7e2d8;
 
-    padding-left:15px;
-}
-
-.method-item.active{
-    background:#d7ff45;
-
-    padding-left:15px;
-}
+/* =========================================================
+   NUMBER
+========================================================= */
 
 .method-number{
-    font-size:12px;
+
+    font-size:11px;
 
     font-weight:900;
+
+    letter-spacing:2px;
+
+    color:#777269;
+
 }
+
+
+/* =========================================================
+   MAIN NAME
+========================================================= */
 
 .method-name{
-    font-size:19px;
 
-    font-weight:800;
+    margin-top:auto;
 
-    letter-spacing:-.5px;
+    font-size:22px;
+
+    font-weight:900;
+
+    letter-spacing:-.8px;
+
+    line-height:1;
+
 }
+
+
+/* =========================================================
+   DESCRIPTION
+========================================================= */
 
 .method-description{
-    font-size:12px;
 
-    color:#706b63;
+    margin-top:14px;
+
+    max-width:180px;
+
+    font-size:10px;
+
+    line-height:1.7;
+
+    color:#777269;
+
 }
 
-.method-arrow{
-    text-align:right;
 
-    font-size:20px;
+/* =========================================================
+   ARROW
+========================================================= */
+
+.method-arrow{
+
+    position:absolute;
+
+    right:20px;
+
+    top:20px;
+
+    font-size:18px;
+
+    font-weight:700;
+
+    transition:.25s;
+}
+
+
+/* =========================================================
+   HOVER
+========================================================= */
+
+.method-item:hover{
+
+    background:#e5e1d8;
+
+    transform:translateY(-5px);
+
+    z-index:2;
+
+}
+
+.method-item:hover .method-arrow{
+
+    transform:translateX(5px);
+}
+
+
+/* =========================================================
+   ACTIVE
+========================================================= */
+
+.method-item.active{
+
+    background:#d7ff45;
+
+    color:#171717;
+
+    transform:translateY(-5px);
+
+    z-index:3;
+
+    box-shadow:
+        0 12px 0 #171717;
+}
+
+.method-item.active .method-number{
+
+    color:#171717;
+}
+
+.method-item.active .method-description{
+
+    color:#343434;
+}
+
+
+/* =========================================================
+   TOP MARK
+========================================================= */
+
+.method-item::before{
+
+    content:"";
+
+    position:absolute;
+
+    left:0;
+    top:0;
+
+    width:100%;
+    height:4px;
+
+    background:transparent;
+
+}
+
+.method-item.active::before{
+
+    background:#171717;
+
 }
 
 
@@ -865,12 +1005,14 @@ button{
 }
 
 .main-centroid.c2{
+
     border-color:#ff785a;
 
     color:#ff785a;
 }
 
 .centroid-caption{
+
     position:absolute;
 
     bottom:-19px;
@@ -888,6 +1030,7 @@ button{
 ========================================================= */
 
 .side-panel{
+
     background:#202020;
 
     border:1px solid #383838;
@@ -904,6 +1047,7 @@ button{
 }
 
 .side-top small{
+
     color:#777;
 
     font-size:9px;
@@ -912,6 +1056,7 @@ button{
 }
 
 .side-top h3{
+
     font-size:32px;
 
     line-height:1;
@@ -922,6 +1067,7 @@ button{
 }
 
 .side-text{
+
     margin-top:20px;
 
     font-size:12px;
@@ -937,10 +1083,12 @@ button{
 ========================================================= */
 
 .decisions{
+
     margin-top:25px;
 }
 
 .decision-row{
+
     display:grid;
 
     grid-template-columns:
@@ -958,6 +1106,7 @@ button{
 }
 
 .decision-number{
+
     width:28px;
     height:28px;
 
@@ -972,10 +1121,12 @@ button{
 }
 
 .decision-row strong{
+
     font-size:11px;
 }
 
 .decision-row small{
+
     display:block;
 
     color:#777;
@@ -984,6 +1135,7 @@ button{
 }
 
 .decision-result{
+
     font-size:9px;
 
     font-weight:900;
@@ -996,6 +1148,7 @@ button{
 }
 
 .decision-result.red{
+
     background:#ff785a;
 }
 
@@ -1005,6 +1158,7 @@ button{
 ========================================================= */
 
 .formula{
+
     margin-top:25px;
 
     padding-top:20px;
@@ -1013,6 +1167,7 @@ button{
 }
 
 .formula small{
+
     color:#777;
 
     font-size:9px;
@@ -1021,6 +1176,7 @@ button{
 }
 
 .formula strong{
+
     display:block;
 
     font-size:19px;
@@ -1036,6 +1192,7 @@ button{
 ========================================================= */
 
 .lab-controls{
+
     margin-top:20px;
 
     display:flex;
@@ -1046,12 +1203,14 @@ button{
 }
 
 .progress{
+
     display:flex;
 
     gap:5px;
 }
 
 .progress span{
+
     width:32px;
     height:3px;
 
@@ -1059,16 +1218,19 @@ button{
 }
 
 .progress span.active{
+
     background:#d7ff45;
 }
 
 .controls{
+
     display:flex;
 
     gap:8px;
 }
 
 .btn{
+
     border:1px solid #4a4a4a;
 
     background:transparent;
@@ -1085,12 +1247,14 @@ button{
 }
 
 .btn:hover{
+
     background:#eee;
 
     color:#171717;
 }
 
 .btn.next{
+
     background:#d7ff45;
 
     border-color:#d7ff45;
@@ -1106,12 +1270,14 @@ button{
 ========================================================= */
 
 .theory{
+
     padding:120px 0;
 
     border-bottom:1px solid #d9d5cc;
 }
 
 .theory-layout{
+
     display:grid;
 
     grid-template-columns:
@@ -1122,6 +1288,7 @@ button{
 }
 
 .theory-heading h2{
+
     font-size:55px;
 
     line-height:.95;
@@ -1130,6 +1297,7 @@ button{
 }
 
 .theory-heading p{
+
     margin-top:20px;
 
     color:#777269;
@@ -1140,10 +1308,12 @@ button{
 }
 
 .theory-content{
+
     border-top:1px solid #222;
 }
 
 .theory-row{
+
     display:grid;
 
     grid-template-columns:
@@ -1159,6 +1329,7 @@ button{
 }
 
 .theory-row-number{
+
     font-size:10px;
 
     font-weight:800;
@@ -1167,10 +1338,12 @@ button{
 }
 
 .theory-row h3{
+
     font-size:18px;
 }
 
 .theory-row p{
+
     font-size:11px;
 
     color:#777269;
@@ -1179,6 +1352,7 @@ button{
 }
 
 .theory-formula{
+
     grid-column:
         2 / 4;
 
@@ -1199,6 +1373,7 @@ button{
 ========================================================= */
 
 .result{
+
     padding:120px 0;
 
     background:#d7ff45;
@@ -1207,6 +1382,7 @@ button{
 }
 
 .result-header{
+
     display:flex;
 
     justify-content:space-between;
@@ -1217,6 +1393,7 @@ button{
 }
 
 .result-header h2{
+
     font-size:
         clamp(45px,7vw,90px);
 
@@ -1226,6 +1403,7 @@ button{
 }
 
 .result-status{
+
     border:1px solid #171717;
 
     padding:8px 13px;
@@ -1238,6 +1416,7 @@ button{
 }
 
 .result-grid{
+
     display:grid;
 
     grid-template-columns:1fr 1fr;
@@ -1246,6 +1425,7 @@ button{
 }
 
 .result-card{
+
     border:1px solid #171717;
 
     padding:35px;
@@ -1254,24 +1434,28 @@ button{
 }
 
 .result-card small{
+
     font-size:9px;
 
     letter-spacing:2px;
 }
 
 .result-card h3{
+
     font-size:27px;
 
     margin:15px 0;
 }
 
 .result-values{
+
     display:flex;
 
     gap:8px;
 }
 
 .result-value{
+
     width:45px;
     height:45px;
 
@@ -1286,6 +1470,7 @@ button{
 }
 
 .result-centroid{
+
     margin-top:30px;
 
     padding-top:15px;
@@ -1296,6 +1481,7 @@ button{
 }
 
 .result-centroid strong{
+
     font-size:20px;
 }
 
@@ -1305,6 +1491,7 @@ button{
 ========================================================= */
 
 footer{
+
     background:#171717;
 
     color:#aaa59d;
@@ -1315,6 +1502,7 @@ footer{
 }
 
 .footer-inner{
+
     display:flex;
 
     justify-content:space-between;
@@ -1323,6 +1511,7 @@ footer{
 }
 
 .footer-title{
+
     color:#f1eee7;
 
     font-weight:800;
@@ -1330,124 +1519,210 @@ footer{
 
 
 /* =========================================================
-   RESPONSIVE
+   RESPONSIVE — TABLET
 ========================================================= */
 
 @media(max-width:900px){
 
     .hero-grid{
+
         grid-template-columns:1fr;
     }
 
     .hero{
+
         padding-top:130px;
+
         padding-bottom:80px;
     }
 
     .hero-visual{
+
         height:430px;
     }
 
     .intro-grid{
+
         grid-template-columns:1fr;
+
         gap:25px;
     }
 
-    .method-item{
+
+    /* HOW IT WORKS */
+
+    .method-list{
+
         grid-template-columns:
-            45px
-            150px
-            1fr
-            30px;
+            repeat(5,190px);
+
+        overflow-x:auto;
+
+        padding-top:8px;
+
+        padding-bottom:15px;
     }
 
+    .method-item{
+
+        min-height:220px;
+    }
+
+
     .lab-grid{
+
         grid-template-columns:1fr;
     }
 
     .side-panel{
+
         min-height:auto;
     }
 
     .theory-layout{
+
         grid-template-columns:1fr;
     }
 
 }
 
+
+/* =========================================================
+   RESPONSIVE — MOBILE
+========================================================= */
+
 @media(max-width:600px){
 
     .nav-right{
+
         display:none;
     }
 
     .hero h1{
+
         font-size:70px;
 
         letter-spacing:-5px;
     }
 
     .hero-meta{
+
         gap:25px;
     }
 
     .hero-visual{
+
         height:350px;
     }
 
-    .method-item{
+
+    /* HOW IT WORKS */
+
+    .method{
+
+        padding:80px 0;
+    }
+
+    .method-top{
+
+        display:block;
+
+        margin-bottom:30px;
+    }
+
+    .method-note{
+
+        margin-top:10px;
+    }
+
+    .method-list{
+
         grid-template-columns:
-            35px
-            1fr
-            25px;
+            repeat(5,160px);
+
+        overflow-x:auto;
+
+        padding-top:7px;
+
+        padding-bottom:14px;
+
+        scrollbar-width:thin;
+    }
+
+    .method-item{
+
+        min-height:195px;
+
+        padding:20px;
+    }
+
+    .method-name{
+
+        font-size:18px;
     }
 
     .method-description{
-        display:none;
+
+        font-size:9px;
     }
 
+
     .canvas{
+
         height:450px;
     }
 
     .lab-header{
+
         align-items:start;
     }
 
     .lab-header h2{
+
         font-size:50px;
     }
 
     .lab-step{
+
         display:none;
     }
 
     .result-grid{
+
         grid-template-columns:1fr;
     }
 
     .result-header{
+
         display:block;
     }
 
     .result-status{
+
         display:inline-block;
+
         margin-top:20px;
     }
 
     .theory-row{
-        grid-template-columns:35px 1fr;
+
+        grid-template-columns:
+            35px
+            1fr;
     }
 
     .theory-row p{
+
         grid-column:2;
     }
 
     .theory-formula{
+
         grid-column:2;
     }
 
     .footer-inner{
+
         display:block;
     }
 
@@ -1461,13 +1736,19 @@ footer{
 @keyframes appear{
 
     from{
+
         opacity:0;
-        transform:translateY(20px);
+
+        transform:
+            translateY(20px);
     }
 
     to{
+
         opacity:1;
-        transform:translateY(0);
+
+        transform:
+            translateY(0);
     }
 
 }
@@ -1475,14 +1756,18 @@ footer{
 .hero h1,
 .hero-description,
 .hero-meta{
-    animation:appear .8s ease both;
+
+    animation:
+        appear .8s ease both;
 }
 
 .hero-description{
+
     animation-delay:.15s;
 }
 
 .hero-meta{
+
     animation-delay:.3s;
 }
 
@@ -1505,7 +1790,9 @@ footer{
     <div class="logo">
 
         <div class="logo-mark">
+
             <span>K</span>
+
         </div>
 
         K-MEANS / VISUAL LAB
@@ -1790,8 +2077,12 @@ footer{
     </div>
 
 
+    <!-- HORIZONTAL BLOCKS -->
+
     <div class="method-list">
 
+
+        <!-- 01 -->
 
         <div
             class="method-item active"
@@ -1807,7 +2098,8 @@ footer{
             </div>
 
             <div class="method-description">
-                เลือก K และกำหนดตำแหน่ง Centroid เริ่มต้น
+                เลือก K และกำหนดตำแหน่ง
+                Centroid เริ่มต้น
             </div>
 
             <div class="method-arrow">
@@ -1816,6 +2108,8 @@ footer{
 
         </div>
 
+
+        <!-- 02 -->
 
         <div
             class="method-item"
@@ -1831,7 +2125,8 @@ footer{
             </div>
 
             <div class="method-description">
-                คำนวณระยะห่างจากแต่ละจุดไปยัง Centroid
+                คำนวณระยะห่างจากแต่ละจุด
+                ไปยัง Centroid
             </div>
 
             <div class="method-arrow">
@@ -1840,6 +2135,8 @@ footer{
 
         </div>
 
+
+        <!-- 03 -->
 
         <div
             class="method-item"
@@ -1855,7 +2152,8 @@ footer{
             </div>
 
             <div class="method-description">
-                ส่งข้อมูลไปยัง Cluster ที่มีระยะห่างน้อยที่สุด
+                จัดข้อมูลให้อยู่ใน Cluster
+                ที่มีระยะห่างน้อยที่สุด
             </div>
 
             <div class="method-arrow">
@@ -1864,6 +2162,8 @@ footer{
 
         </div>
 
+
+        <!-- 04 -->
 
         <div
             class="method-item"
@@ -1879,7 +2179,8 @@ footer{
             </div>
 
             <div class="method-description">
-                คำนวณค่าเฉลี่ยเพื่อสร้าง Centroid ใหม่
+                คำนวณค่าเฉลี่ยของสมาชิก
+                เพื่อหา Centroid ใหม่
             </div>
 
             <div class="method-arrow">
@@ -1888,6 +2189,8 @@ footer{
 
         </div>
 
+
+        <!-- 05 -->
 
         <div
             class="method-item"
@@ -1903,11 +2206,12 @@ footer{
             </div>
 
             <div class="method-description">
-                ตรวจสอบว่าการแบ่งกลุ่มเปลี่ยนแปลงหรือไม่
+                ตรวจสอบว่าสมาชิกของ
+                Cluster เปลี่ยนแปลงหรือไม่
             </div>
 
             <div class="method-arrow">
-                →
+                ✓
             </div>
 
         </div>
@@ -1986,7 +2290,10 @@ footer{
             </div>
 
 
-            <div class="zone one" id="zone1">
+            <div
+                class="zone one"
+                id="zone1"
+            >
 
                 <div class="zone-label">
                     CLUSTER 1
@@ -1995,7 +2302,10 @@ footer{
             </div>
 
 
-            <div class="zone two" id="zone2">
+            <div
+                class="zone two"
+                id="zone2"
+            >
 
                 <div class="zone-label">
                     CLUSTER 2
@@ -2122,7 +2432,7 @@ footer{
 
 
 
-        <!-- SIDE -->
+        <!-- SIDE PANEL -->
 
         <div class="side-panel">
 
@@ -2849,6 +3159,7 @@ function updatePanel(step){
                 </div>
 
                 <div>
+
                     <strong>
                         2 → C1
                     </strong>
@@ -2856,6 +3167,7 @@ function updatePanel(step){
                     <small>
                         เพราะ 0 < 10
                     </small>
+
                 </div>
 
                 <div class="decision-result">
@@ -2872,6 +3184,7 @@ function updatePanel(step){
                 </div>
 
                 <div>
+
                     <strong>
                         4 → C1
                     </strong>
@@ -2879,6 +3192,7 @@ function updatePanel(step){
                     <small>
                         เพราะ 2 < 8
                     </small>
+
                 </div>
 
                 <div class="decision-result">
@@ -2895,6 +3209,7 @@ function updatePanel(step){
                 </div>
 
                 <div>
+
                     <strong>
                         10 → C2
                     </strong>
@@ -2902,6 +3217,7 @@ function updatePanel(step){
                     <small>
                         เพราะ 2 < 8
                     </small>
+
                 </div>
 
                 <div class="decision-result red">
@@ -2918,6 +3234,7 @@ function updatePanel(step){
                 </div>
 
                 <div>
+
                     <strong>
                         12 → C2
                     </strong>
@@ -2925,6 +3242,7 @@ function updatePanel(step){
                     <small>
                         เพราะ 0 < 10
                     </small>
+
                 </div>
 
                 <div class="decision-result red">
@@ -2941,6 +3259,7 @@ function updatePanel(step){
                 </div>
 
                 <div>
+
                     <strong>
                         14 → C2
                     </strong>
@@ -2948,6 +3267,7 @@ function updatePanel(step){
                     <small>
                         เพราะ 2 < 12
                     </small>
+
                 </div>
 
                 <div class="decision-result red">
