@@ -1,0 +1,2460 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>K-Means Interactive Learning</title>
+
+<style>
+
+/* =========================================================
+   GOOGLE FONT
+========================================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Prompt:wght@400;500;600;700;800&display=swap');
+
+
+/* =========================================================
+   GLOBAL
+========================================================= */
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+body{
+    font-family:"Prompt","Inter",sans-serif;
+    background:#f5f7fb;
+    color:#151827;
+    line-height:1.6;
+}
+
+button{
+    font-family:inherit;
+}
+
+.container{
+    width:min(1180px,92%);
+    margin:auto;
+}
+
+
+/* =========================================================
+   NAVBAR
+========================================================= */
+
+.navbar{
+    height:76px;
+    background:white;
+    border-bottom:1px solid #e8eaf0;
+    display:flex;
+    align-items:center;
+    position:sticky;
+    top:0;
+    z-index:100;
+}
+
+.nav-inner{
+    width:min(1180px,92%);
+    margin:auto;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-weight:800;
+    font-size:20px;
+}
+
+.logo-mark{
+    width:38px;
+    height:38px;
+    border-radius:12px;
+    background:#635bff;
+    color:white;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:800;
+}
+
+.nav-right{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.nav-pill{
+    background:#f0efff;
+    color:#635bff;
+    padding:7px 14px;
+    border-radius:999px;
+    font-size:13px;
+    font-weight:600;
+}
+
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.hero{
+    padding:80px 0 60px;
+}
+
+.hero-grid{
+    display:grid;
+    grid-template-columns:1.25fr .75fr;
+    gap:60px;
+    align-items:center;
+}
+
+.hero-tag{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:7px 13px;
+    background:white;
+    border:1px solid #e4e6ed;
+    border-radius:999px;
+    font-size:13px;
+    color:#635bff;
+    font-weight:600;
+    margin-bottom:22px;
+}
+
+.hero-tag span{
+    width:8px;
+    height:8px;
+    border-radius:50%;
+    background:#635bff;
+}
+
+.hero h1{
+    font-size:clamp(48px,7vw,82px);
+    line-height:.98;
+    letter-spacing:-3px;
+    font-weight:800;
+    margin-bottom:25px;
+}
+
+.hero h1 em{
+    color:#635bff;
+    font-style:normal;
+}
+
+.hero-description{
+    max-width:650px;
+    color:#686d7d;
+    font-size:17px;
+}
+
+.hero-card{
+    background:#151827;
+    border-radius:30px;
+    padding:32px;
+    color:white;
+    position:relative;
+    overflow:hidden;
+    min-height:330px;
+}
+
+.hero-card::before{
+    content:"";
+    position:absolute;
+    width:180px;
+    height:180px;
+    border-radius:50%;
+    background:#635bff;
+    opacity:.18;
+    top:-70px;
+    right:-40px;
+}
+
+.hero-card-title{
+    color:#aeb3c4;
+    font-size:13px;
+    text-transform:uppercase;
+    letter-spacing:1px;
+    margin-bottom:30px;
+}
+
+.hero-number{
+    font-size:100px;
+    line-height:1;
+    font-weight:800;
+    color:white;
+}
+
+.hero-number-label{
+    color:#aeb3c4;
+    margin-top:5px;
+}
+
+.hero-mini-row{
+    display:flex;
+    gap:10px;
+    margin-top:35px;
+}
+
+.hero-mini{
+    background:#22263a;
+    padding:12px 15px;
+    border-radius:14px;
+    flex:1;
+}
+
+.hero-mini strong{
+    display:block;
+    font-size:20px;
+}
+
+.hero-mini small{
+    color:#9298aa;
+}
+
+
+/* =========================================================
+   HOW IT WORKS
+========================================================= */
+
+.section-label{
+    font-size:12px;
+    font-weight:700;
+    letter-spacing:2px;
+    color:#635bff;
+    text-transform:uppercase;
+    margin-bottom:10px;
+}
+
+.section-title{
+    font-size:38px;
+    line-height:1.15;
+    margin-bottom:35px;
+}
+
+.steps-overview{
+    padding:35px 0 80px;
+}
+
+.overview-grid{
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:14px;
+}
+
+.overview-card{
+    background:white;
+    border:1px solid #e6e8ef;
+    border-radius:20px;
+    padding:22px;
+    transition:.25s;
+}
+
+.overview-card.active{
+    border-color:#635bff;
+    box-shadow:0 12px 30px rgba(99,91,255,.12);
+    transform:translateY(-4px);
+}
+
+.overview-number{
+    width:38px;
+    height:38px;
+    border-radius:11px;
+    background:#f0efff;
+    color:#635bff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:800;
+    margin-bottom:18px;
+}
+
+.overview-card h3{
+    font-size:17px;
+    margin-bottom:5px;
+}
+
+.overview-card p{
+    font-size:13px;
+    color:#7b8090;
+}
+
+
+/* =========================================================
+   LAB
+========================================================= */
+
+.lab{
+    padding:30px 0 90px;
+}
+
+.lab-shell{
+    background:white;
+    border:1px solid #e2e5ec;
+    border-radius:32px;
+    overflow:hidden;
+    box-shadow:0 20px 60px rgba(31,35,50,.07);
+}
+
+.lab-header{
+    padding:28px 32px;
+    border-bottom:1px solid #e9ebf0;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.lab-step{
+    color:#635bff;
+    font-size:13px;
+    font-weight:700;
+}
+
+.progress{
+    width:180px;
+    height:7px;
+    background:#eceef4;
+    border-radius:999px;
+    overflow:hidden;
+}
+
+.progress-bar{
+    height:100%;
+    width:20%;
+    background:#635bff;
+    transition:.35s;
+}
+
+.lab-main{
+    display:grid;
+    grid-template-columns:1.5fr .8fr;
+    min-height:570px;
+}
+
+
+/* =========================================================
+   VISUAL AREA
+========================================================= */
+
+.visual-area{
+    background:#f8f9fc;
+    padding:35px;
+    border-right:1px solid #e8eaf0;
+    position:relative;
+}
+
+.visual-title{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:25px;
+}
+
+.visual-title h2{
+    font-size:22px;
+}
+
+.visual-title span{
+    font-size:12px;
+    color:#858a99;
+}
+
+.graph{
+    height:390px;
+    position:relative;
+    background:white;
+    border:1px solid #e5e7ed;
+    border-radius:24px;
+    overflow:hidden;
+}
+
+/* grid */
+
+.graph::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background-image:
+        linear-gradient(#eef0f5 1px,transparent 1px),
+        linear-gradient(90deg,#eef0f5 1px,transparent 1px);
+    background-size:40px 40px;
+    opacity:.65;
+}
+
+/* axis */
+
+.axis{
+    position:absolute;
+    left:8%;
+    right:6%;
+    bottom:70px;
+    height:2px;
+    background:#cfd3dc;
+    z-index:2;
+}
+
+.axis::before{
+    content:"";
+    position:absolute;
+    left:0;
+    top:-5px;
+    width:10px;
+    height:10px;
+    border-left:2px solid #9ca1ae;
+    border-bottom:2px solid #9ca1ae;
+    transform:rotate(45deg);
+}
+
+.axis::after{
+    content:"";
+    position:absolute;
+    right:0;
+    top:-4px;
+    width:8px;
+    height:8px;
+    border-top:2px solid #9ca1ae;
+    border-right:2px solid #9ca1ae;
+    transform:rotate(45deg);
+}
+
+.tick{
+    position:absolute;
+    bottom:59px;
+    transform:translateX(-50%);
+    font-size:11px;
+    color:#8a8f9e;
+    z-index:3;
+}
+
+
+/* =========================================================
+   POINTS
+========================================================= */
+
+.point{
+    position:absolute;
+    width:46px;
+    height:46px;
+    border-radius:50%;
+    transform:translate(-50%,-50%);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:800;
+    font-size:14px;
+    z-index:10;
+    transition:
+        left .7s cubic-bezier(.2,.8,.2,1),
+        top .7s cubic-bezier(.2,.8,.2,1),
+        background .3s,
+        box-shadow .3s;
+    background:#dfe2ea;
+    color:#505565;
+}
+
+.point.c1{
+    background:#635bff;
+    color:white;
+    box-shadow:0 8px 22px rgba(99,91,255,.28);
+}
+
+.point.c2{
+    background:#22bfa2;
+    color:white;
+    box-shadow:0 8px 22px rgba(34,191,162,.25);
+}
+
+.point.active{
+    transform:translate(-50%,-50%) scale(1.15);
+}
+
+
+/* =========================================================
+   CENTROIDS
+========================================================= */
+
+.centroid{
+    position:absolute;
+    width:58px;
+    height:58px;
+    transform:translate(-50%,-50%);
+    border-radius:18px;
+    z-index:15;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:12px;
+    font-weight:800;
+    color:white;
+    transition:left .8s cubic-bezier(.2,.8,.2,1);
+}
+
+.centroid.c1{
+    background:#463de5;
+    box-shadow:0 10px 30px rgba(70,61,229,.3);
+}
+
+.centroid.c2{
+    background:#119e87;
+    box-shadow:0 10px 30px rgba(17,158,135,.3);
+}
+
+.centroid::after{
+    content:"CENTROID";
+    position:absolute;
+    bottom:-22px;
+    font-size:9px;
+    letter-spacing:.7px;
+    color:#727786;
+    white-space:nowrap;
+}
+
+
+/* =========================================================
+   CLUSTER ZONES
+========================================================= */
+
+.cluster-zone{
+    position:absolute;
+    left:5%;
+    right:5%;
+    height:105px;
+    border:2px dashed #d9dce5;
+    border-radius:20px;
+    opacity:0;
+    transition:.4s;
+    z-index:1;
+}
+
+.cluster-zone.c1-zone{
+    top:45px;
+}
+
+.cluster-zone.c2-zone{
+    top:220px;
+}
+
+.cluster-zone.show{
+    opacity:1;
+}
+
+.zone-label{
+    position:absolute;
+    left:14px;
+    top:-12px;
+    background:white;
+    padding:2px 9px;
+    border-radius:999px;
+    font-size:10px;
+    font-weight:700;
+    color:#777c8b;
+}
+
+
+/* =========================================================
+   INFO PANEL
+========================================================= */
+
+.info-area{
+    padding:35px;
+    display:flex;
+    flex-direction:column;
+}
+
+.info-step{
+    font-size:12px;
+    color:#8b90a0;
+    font-weight:700;
+    letter-spacing:1px;
+    text-transform:uppercase;
+    margin-bottom:8px;
+}
+
+.info-area h2{
+    font-size:30px;
+    line-height:1.2;
+    margin-bottom:15px;
+}
+
+.info-description{
+    color:#707585;
+    font-size:14px;
+    margin-bottom:25px;
+}
+
+.rule-box{
+    background:#f1f0ff;
+    border-radius:18px;
+    padding:18px;
+    color:#423bb0;
+    font-size:14px;
+    font-weight:600;
+    margin-bottom:20px;
+}
+
+
+/* =========================================================
+   DISTANCE TABLE
+========================================================= */
+
+.distance-table{
+    width:100%;
+    border-collapse:collapse;
+    font-size:12px;
+}
+
+.distance-table th{
+    text-align:left;
+    color:#8b90a0;
+    font-weight:600;
+    padding:8px 6px;
+    border-bottom:1px solid #e7e9ef;
+}
+
+.distance-table td{
+    padding:9px 6px;
+    border-bottom:1px solid #f0f1f4;
+}
+
+.distance-table .winner{
+    font-weight:800;
+    color:#635bff;
+}
+
+.distance-table .winner.green{
+    color:#119e87;
+}
+
+
+/* =========================================================
+   DECISION CARDS
+========================================================= */
+
+.decision-list{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+    max-height:310px;
+    overflow:auto;
+}
+
+.decision-row{
+    border:1px solid #e5e7ed;
+    border-radius:14px;
+    padding:11px 12px;
+    display:grid;
+    grid-template-columns:35px 1fr auto;
+    align-items:center;
+    gap:10px;
+    background:#fff;
+}
+
+.decision-point{
+    width:32px;
+    height:32px;
+    border-radius:10px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:800;
+    background:#f0f1f5;
+}
+
+.decision-row strong{
+    font-size:13px;
+}
+
+.decision-reason{
+    font-size:10px;
+    color:#9296a3;
+    display:block;
+}
+
+.decision-result{
+    padding:5px 9px;
+    border-radius:999px;
+    font-size:10px;
+    font-weight:800;
+    background:#f0efff;
+    color:#635bff;
+}
+
+.decision-result.green{
+    background:#e7faf5;
+    color:#119e87;
+}
+
+
+/* =========================================================
+   CLUSTER SUMMARY
+========================================================= */
+
+.cluster-summary{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+    margin-top:18px;
+}
+
+.cluster-card{
+    border-radius:16px;
+    padding:15px;
+    background:#f7f7fa;
+}
+
+.cluster-card.purple{
+    background:#f0efff;
+}
+
+.cluster-card.green{
+    background:#e9faf6;
+}
+
+.cluster-card small{
+    font-size:10px;
+    font-weight:700;
+    color:#777c8b;
+}
+
+.cluster-card h4{
+    font-size:13px;
+    margin:5px 0 8px;
+}
+
+.chips{
+    display:flex;
+    gap:5px;
+    flex-wrap:wrap;
+}
+
+.chip{
+    padding:4px 8px;
+    border-radius:7px;
+    background:white;
+    font-size:11px;
+    font-weight:700;
+}
+
+
+/* =========================================================
+   FORMULA
+========================================================= */
+
+.formula-box{
+    background:#151827;
+    color:white;
+    padding:20px;
+    border-radius:18px;
+    margin-top:5px;
+}
+
+.formula-box small{
+    color:#9499aa;
+    font-size:11px;
+}
+
+.formula{
+    font-size:20px;
+    font-weight:700;
+    margin-top:7px;
+}
+
+.formula-note{
+    color:#aeb2c1;
+    font-size:11px;
+    margin-top:6px;
+}
+
+
+/* =========================================================
+   CONVERGED
+========================================================= */
+
+.converged{
+    background:#e9faf6;
+    border:1px solid #c7eee4;
+    border-radius:20px;
+    padding:22px;
+    text-align:center;
+    margin-top:10px;
+}
+
+.check{
+    width:52px;
+    height:52px;
+    border-radius:50%;
+    background:#22bfa2;
+    color:white;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:25px;
+    font-weight:800;
+    margin:0 auto 12px;
+}
+
+.converged h3{
+    color:#108d78;
+    font-size:22px;
+}
+
+.converged p{
+    color:#60877f;
+    font-size:12px;
+}
+
+
+/* =========================================================
+   CONTROLS
+========================================================= */
+
+.controls{
+    border-top:1px solid #e8eaf0;
+    padding:20px 30px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    background:white;
+}
+
+.control-group{
+    display:flex;
+    gap:10px;
+}
+
+.btn{
+    border:0;
+    border-radius:12px;
+    padding:11px 18px;
+    font-weight:700;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.btn:hover{
+    transform:translateY(-2px);
+}
+
+.btn-back{
+    background:#f0f1f5;
+    color:#656a79;
+}
+
+.btn-next{
+    background:#635bff;
+    color:white;
+    min-width:120px;
+}
+
+.btn-reset{
+    background:white;
+    border:1px solid #e1e3e9;
+    color:#666b7a;
+}
+
+
+/* =========================================================
+   MATH SECTION
+========================================================= */
+
+.math-section{
+    padding:20px 0 90px;
+}
+
+.math-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:18px;
+}
+
+.math-card{
+    background:white;
+    border:1px solid #e4e6ed;
+    border-radius:24px;
+    padding:28px;
+}
+
+.math-card h3{
+    font-size:19px;
+    margin-bottom:15px;
+}
+
+.math-card p{
+    color:#6d7281;
+    font-size:14px;
+}
+
+.math-highlight{
+    margin-top:20px;
+    background:#f5f6fa;
+    padding:18px;
+    border-radius:16px;
+    font-size:15px;
+}
+
+.math-highlight strong{
+    color:#635bff;
+}
+
+
+/* =========================================================
+   FINAL RESULT
+========================================================= */
+
+.final-section{
+    padding-bottom:100px;
+}
+
+.final-box{
+    background:#151827;
+    color:white;
+    border-radius:30px;
+    padding:45px;
+}
+
+.final-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    margin-bottom:35px;
+}
+
+.final-box h2{
+    font-size:38px;
+}
+
+.final-box p{
+    color:#9ca1b1;
+    max-width:580px;
+}
+
+.final-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:15px;
+}
+
+.final-cluster{
+    padding:24px;
+    border-radius:20px;
+    background:#22263a;
+}
+
+.final-cluster h3{
+    font-size:16px;
+    margin-bottom:12px;
+}
+
+.final-values{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    flex-wrap:wrap;
+}
+
+.final-value{
+    background:#30354c;
+    padding:7px 12px;
+    border-radius:9px;
+    font-weight:700;
+}
+
+.centroid-result{
+    margin-top:15px;
+    color:#aeb3c2;
+    font-size:13px;
+}
+
+.centroid-result strong{
+    color:white;
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+footer{
+    padding:30px;
+    text-align:center;
+    color:#9297a6;
+    font-size:12px;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media(max-width:900px){
+
+    .hero-grid{
+        grid-template-columns:1fr;
+    }
+
+    .overview-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .lab-main{
+        grid-template-columns:1fr;
+    }
+
+    .visual-area{
+        border-right:0;
+        border-bottom:1px solid #e8eaf0;
+    }
+
+}
+
+@media(max-width:600px){
+
+    .hero{
+        padding:55px 0 40px;
+    }
+
+    .hero h1{
+        font-size:52px;
+        letter-spacing:-2px;
+    }
+
+    .hero-card{
+        min-height:260px;
+    }
+
+    .hero-number{
+        font-size:75px;
+    }
+
+    .overview-grid{
+        grid-template-columns:1fr;
+    }
+
+    .visual-area,
+    .info-area{
+        padding:20px;
+    }
+
+    .graph{
+        height:330px;
+    }
+
+    .lab-header{
+        padding:20px;
+    }
+
+    .progress{
+        width:100px;
+    }
+
+    .controls{
+        padding:15px;
+    }
+
+    .btn{
+        padding:9px 12px;
+        font-size:12px;
+    }
+
+    .math-grid,
+    .final-grid{
+        grid-template-columns:1fr;
+    }
+
+    .final-box{
+        padding:28px;
+    }
+
+    .final-box h2{
+        font-size:30px;
+    }
+}
+
+</style>
+</head>
+
+
+<body>
+
+
+<!-- =========================================================
+     NAVBAR
+========================================================= -->
+
+<nav class="navbar">
+
+    <div class="nav-inner">
+
+        <div class="logo">
+            <div class="logo-mark">K</div>
+            K-Means Lab
+        </div>
+
+        <div class="nav-right">
+            <div class="nav-pill">Unsupervised Learning</div>
+        </div>
+
+    </div>
+
+</nav>
+
+
+
+<main>
+
+
+<!-- =========================================================
+     HERO
+========================================================= -->
+
+<section class="hero">
+
+    <div class="container">
+
+        <div class="hero-grid">
+
+            <div>
+
+                <div class="hero-tag">
+                    <span></span>
+                    INTERACTIVE MACHINE LEARNING
+                </div>
+
+                <h1>
+                    How does<br>
+                    K-Means <em>decide?</em>
+                </h1>
+
+                <p class="hero-description">
+                    เรียนรู้การทำงานของ K-Means แบบทีละขั้นตอน
+                    ตั้งแต่เลือกจุดศูนย์กลาง เปรียบเทียบระยะห่าง
+                    จัดกลุ่ม ไปจนถึงการหาค่า Centroid ใหม่
+                </p>
+
+            </div>
+
+
+            <div class="hero-card">
+
+                <div class="hero-card-title">
+                    Today's Example
+                </div>
+
+                <div class="hero-number">
+                    K=2
+                </div>
+
+                <div class="hero-number-label">
+                    แบ่งข้อมูลออกเป็น 2 กลุ่ม
+                </div>
+
+                <div class="hero-mini-row">
+
+                    <div class="hero-mini">
+                        <strong>5</strong>
+                        <small>Data Points</small>
+                    </div>
+
+                    <div class="hero-mini">
+                        <strong>2</strong>
+                        <small>Centroids</small>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     OVERVIEW
+========================================================= -->
+
+<section class="steps-overview">
+
+    <div class="container">
+
+        <div class="section-label">
+            The Process
+        </div>
+
+        <h2 class="section-title">
+            K-Means ทำงานอย่างไร?
+        </h2>
+
+
+        <div class="overview-grid">
+
+            <div class="overview-card active" id="overview1">
+                <div class="overview-number">01</div>
+                <h3>เริ่มต้น</h3>
+                <p>เลือก K และกำหนด Centroid</p>
+            </div>
+
+            <div class="overview-card" id="overview2">
+                <div class="overview-number">02</div>
+                <h3>เปรียบเทียบ</h3>
+                <p>คำนวณระยะห่าง</p>
+            </div>
+
+            <div class="overview-card" id="overview3">
+                <div class="overview-number">03</div>
+                <h3>จัดกลุ่ม</h3>
+                <p>เลือก Cluster ที่ใกล้ที่สุด</p>
+            </div>
+
+            <div class="overview-card" id="overview4">
+                <div class="overview-number">04</div>
+                <h3>หาค่าใหม่</h3>
+                <p>คำนวณ Centroid ใหม่</p>
+            </div>
+
+            <div class="overview-card" id="overview5">
+                <div class="overview-number">05</div>
+                <h3>ตรวจสอบ</h3>
+                <p>ทำซ้ำจนกลุ่มไม่เปลี่ยน</p>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     INTERACTIVE LAB
+========================================================= -->
+
+<section class="lab">
+
+<div class="container">
+
+<div class="lab-shell">
+
+
+    <!-- HEADER -->
+
+    <div class="lab-header">
+
+        <div>
+            <div class="lab-step" id="stepLabel">
+                STEP 01 / 05
+            </div>
+        </div>
+
+        <div class="progress">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+
+    </div>
+
+
+
+    <!-- MAIN -->
+
+    <div class="lab-main">
+
+
+        <!-- =================================================
+             VISUAL
+        ================================================== -->
+
+        <div class="visual-area">
+
+            <div class="visual-title">
+
+                <h2 id="visualTitle">
+                    Data Points
+                </h2>
+
+                <span id="visualHint">
+                    D = {2, 4, 10, 12, 14}
+                </span>
+
+            </div>
+
+
+            <div class="graph" id="graph">
+
+                <!-- cluster zones -->
+
+                <div class="cluster-zone c1-zone" id="zone1">
+                    <div class="zone-label">
+                        CLUSTER 1
+                    </div>
+                </div>
+
+                <div class="cluster-zone c2-zone" id="zone2">
+                    <div class="zone-label">
+                        CLUSTER 2
+                    </div>
+                </div>
+
+
+                <!-- axis -->
+
+                <div class="axis"></div>
+
+
+                <!-- ticks -->
+
+                <div class="tick" style="left:8%">0</div>
+                <div class="tick" style="left:26%">3</div>
+                <div class="tick" style="left:44%">6</div>
+                <div class="tick" style="left:62%">9</div>
+                <div class="tick" style="left:80%">12</div>
+                <div class="tick" style="left:96%">15</div>
+
+
+                <!-- centroids -->
+
+                <div class="centroid c1" id="centroid1">
+                    C1
+                </div>
+
+                <div class="centroid c2" id="centroid2">
+                    C2
+                </div>
+
+
+                <!-- data points -->
+
+                <div class="point" id="point2">2</div>
+                <div class="point" id="point4">4</div>
+                <div class="point" id="point10">10</div>
+                <div class="point" id="point12">12</div>
+                <div class="point" id="point14">14</div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =================================================
+             INFORMATION
+        ================================================== -->
+
+        <div class="info-area" id="infoPanel"></div>
+
+    </div>
+
+
+
+    <!-- CONTROLS -->
+
+    <div class="controls">
+
+        <button class="btn btn-reset" onclick="resetSteps()">
+            ↻ Reset
+        </button>
+
+        <div class="control-group">
+
+            <button
+                class="btn btn-back"
+                id="backBtn"
+                onclick="prevStep()">
+                ← Back
+            </button>
+
+            <button
+                class="btn btn-next"
+                id="nextBtn"
+                onclick="nextStep()">
+                Next →
+            </button>
+
+        </div>
+
+    </div>
+
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<!-- =========================================================
+     MATHEMATICAL IDEA
+========================================================= -->
+
+<section class="math-section">
+
+<div class="container">
+
+    <div class="section-label">
+        The Mathematics
+    </div>
+
+    <h2 class="section-title">
+        หลักการที่อยู่เบื้องหลัง
+    </h2>
+
+
+    <div class="math-grid">
+
+
+        <div class="math-card">
+
+            <h3>01 — Distance</h3>
+
+            <p>
+                K-Means ใช้ระยะห่างเพื่อดูว่า
+                Data Point แต่ละจุดอยู่ใกล้ Centroid ใดมากที่สุด
+            </p>
+
+            <div class="math-highlight">
+
+                <strong>Distance</strong><br><br>
+
+                d(x,C) = |x − C|
+
+            </div>
+
+        </div>
+
+
+
+        <div class="math-card">
+
+            <h3>02 — Mean</h3>
+
+            <p>
+                หลังจากจัดกลุ่มแล้ว จะคำนวณค่าเฉลี่ยของสมาชิก
+                ในแต่ละ Cluster เพื่อสร้าง Centroid ใหม่
+            </p>
+
+            <div class="math-highlight">
+
+                <strong>Centroid</strong><br><br>
+
+                C = Σx / n
+
+            </div>
+
+        </div>
+
+
+
+        <div class="math-card">
+
+            <h3>03 — Example</h3>
+
+            <p>
+                Cluster 1 มีสมาชิกคือ 2 และ 4
+            </p>
+
+            <div class="formula-box">
+
+                <small>NEW CENTROID — CLUSTER 1</small>
+
+                <div class="formula">
+                    (2 + 4) / 2 = 3
+                </div>
+
+                <div class="formula-note">
+                    ดังนั้น C1 ใหม่ = 3.0
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="math-card">
+
+            <h3>04 — Objective</h3>
+
+            <p>
+                K-Means จะพยายามทำให้ข้อมูลภายใน Cluster
+                อยู่ใกล้กันมากที่สุด
+            </p>
+
+            <div class="math-highlight">
+
+                <strong>Goal</strong><br><br>
+
+                Minimize WCSS
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+</section>
+
+
+
+<!-- =========================================================
+     FINAL RESULT
+========================================================= -->
+
+<section class="final-section">
+
+<div class="container">
+
+    <div class="final-box">
+
+        <div class="final-top">
+
+            <div>
+
+                <div class="section-label">
+                    Final Result
+                </div>
+
+                <h2>
+                    K-Means ได้ 2 Clusters
+                </h2>
+
+            </div>
+
+            <div>
+                ✓ Converged
+            </div>
+
+        </div>
+
+
+        <p>
+            หลังจากเปรียบเทียบระยะห่างและคำนวณ Centroid ใหม่
+            สมาชิกของแต่ละกลุ่มไม่เปลี่ยนแปลง
+            จึงถือว่า Algorithm หยุดทำงาน
+        </p>
+
+
+        <br>
+
+
+        <div class="final-grid">
+
+            <div class="final-cluster">
+
+                <h3>
+                    Cluster 1
+                </h3>
+
+                <div class="final-values">
+
+                    <div class="final-value">2</div>
+                    <div class="final-value">4</div>
+
+                </div>
+
+                <div class="centroid-result">
+                    Centroid =
+                    <strong>3.0</strong>
+                </div>
+
+            </div>
+
+
+            <div class="final-cluster">
+
+                <h3>
+                    Cluster 2
+                </h3>
+
+                <div class="final-values">
+
+                    <div class="final-value">10</div>
+                    <div class="final-value">12</div>
+                    <div class="final-value">14</div>
+
+                </div>
+
+                <div class="centroid-result">
+                    Centroid =
+                    <strong>12.0</strong>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+</section>
+
+
+</main>
+
+
+<footer>
+    K-Means Interactive Learning • Machine Learning Visualization
+</footer>
+
+
+
+<script>
+
+/* =========================================================
+   DATA
+========================================================= */
+
+const data = [2,4,10,12,14];
+
+let currentStep = 1;
+
+
+/* =========================================================
+   POSITION
+========================================================= */
+
+function xPosition(value){
+
+    /*
+        Graph starts approximately at 8%
+        and ends around 96%.
+
+        Value range = 0 → 15
+    */
+
+    return 8 + (value / 15) * 88;
+
+}
+
+
+/* =========================================================
+   UPDATE GRAPH
+========================================================= */
+
+function updateGraph(step){
+
+    const points = {
+        2:document.getElementById("point2"),
+        4:document.getElementById("point4"),
+        10:document.getElementById("point10"),
+        12:document.getElementById("point12"),
+        14:document.getElementById("point14")
+    };
+
+    const c1 = document.getElementById("centroid1");
+    const c2 = document.getElementById("centroid2");
+
+    const zone1 = document.getElementById("zone1");
+    const zone2 = document.getElementById("zone2");
+
+
+    /* =========================================
+       RESET CLASSES
+    ========================================= */
+
+    Object.values(points).forEach(point => {
+
+        point.className = "point";
+
+    });
+
+
+    zone1.classList.remove("show");
+    zone2.classList.remove("show");
+
+
+    /* =========================================
+       STEP 1
+    ========================================= */
+
+    if(step === 1){
+
+        Object.entries(points).forEach(([value,point]) => {
+
+            point.style.left = xPosition(Number(value)) + "%";
+            point.style.top = "65%";
+
+        });
+
+        c1.style.left = xPosition(2) + "%";
+        c1.style.top = "35%";
+
+        c2.style.left = xPosition(12) + "%";
+        c2.style.top = "35%";
+
+    }
+
+
+    /* =========================================
+       STEP 2
+    ========================================= */
+
+    if(step === 2){
+
+        Object.entries(points).forEach(([value,point]) => {
+
+            point.style.left = xPosition(Number(value)) + "%";
+            point.style.top = "65%";
+
+        });
+
+        c1.style.left = xPosition(2) + "%";
+        c1.style.top = "35%";
+
+        c2.style.left = xPosition(12) + "%";
+        c2.style.top = "35%";
+
+    }
+
+
+    /* =========================================
+       STEP 3
+    ========================================= */
+
+    if(step === 3){
+
+        zone1.classList.add("show");
+        zone2.classList.add("show");
+
+
+        points[2].classList.add("c1");
+        points[4].classList.add("c1");
+
+        points[10].classList.add("c2");
+        points[12].classList.add("c2");
+        points[14].classList.add("c2");
+
+
+        points[2].style.left = xPosition(2) + "%";
+        points[2].style.top = "31%";
+
+        points[4].style.left = xPosition(4) + "%";
+        points[4].style.top = "31%";
+
+        points[10].style.left = xPosition(10) + "%";
+        points[10].style.top = "75%";
+
+        points[12].style.left = xPosition(12) + "%";
+        points[12].style.top = "75%";
+
+        points[14].style.left = xPosition(14) + "%";
+        points[14].style.top = "75%";
+
+
+        c1.style.left = xPosition(2) + "%";
+        c1.style.top = "31%";
+
+        c2.style.left = xPosition(12) + "%";
+        c2.style.top = "75%";
+
+    }
+
+
+    /* =========================================
+       STEP 4
+    ========================================= */
+
+    if(step === 4){
+
+        zone1.classList.add("show");
+        zone2.classList.add("show");
+
+
+        points[2].classList.add("c1");
+        points[4].classList.add("c1");
+
+        points[10].classList.add("c2");
+        points[12].classList.add("c2");
+        points[14].classList.add("c2");
+
+
+        points[2].style.left = xPosition(2) + "%";
+        points[2].style.top = "31%";
+
+        points[4].style.left = xPosition(4) + "%";
+        points[4].style.top = "31%";
+
+        points[10].style.left = xPosition(10) + "%";
+        points[10].style.top = "75%";
+
+        points[12].style.left = xPosition(12) + "%";
+        points[12].style.top = "75%";
+
+        points[14].style.left = xPosition(14) + "%";
+        points[14].style.top = "75%";
+
+
+        /*
+            C1 moves from 2 → 3
+        */
+
+        c1.style.left = xPosition(3) + "%";
+        c1.style.top = "31%";
+
+        c2.style.left = xPosition(12) + "%";
+        c2.style.top = "75%";
+
+    }
+
+
+    /* =========================================
+       STEP 5
+    ========================================= */
+
+    if(step === 5){
+
+        zone1.classList.add("show");
+        zone2.classList.add("show");
+
+
+        points[2].classList.add("c1");
+        points[4].classList.add("c1");
+
+        points[10].classList.add("c2");
+        points[12].classList.add("c2");
+        points[14].classList.add("c2");
+
+
+        points[2].style.left = xPosition(2) + "%";
+        points[2].style.top = "31%";
+
+        points[4].style.left = xPosition(4) + "%";
+        points[4].style.top = "31%";
+
+        points[10].style.left = xPosition(10) + "%";
+        points[10].style.top = "75%";
+
+        points[12].style.left = xPosition(12) + "%";
+        points[12].style.top = "75%";
+
+        points[14].style.left = xPosition(14) + "%";
+        points[14].style.top = "75%";
+
+
+        c1.style.left = xPosition(3) + "%";
+        c1.style.top = "31%";
+
+        c2.style.left = xPosition(12) + "%";
+        c2.style.top = "75%";
+
+    }
+
+}
+
+
+/* =========================================================
+   STEP CONTENT
+========================================================= */
+
+function renderPanel(step){
+
+    const panel = document.getElementById("infoPanel");
+
+    const stepLabel = document.getElementById("stepLabel");
+
+    const progress = document.getElementById("progressBar");
+
+    const visualTitle = document.getElementById("visualTitle");
+
+    const visualHint = document.getElementById("visualHint");
+
+
+    stepLabel.innerText =
+        `STEP ${String(step).padStart(2,"0")} / 05`;
+
+    progress.style.width = `${step * 20}%`;
+
+
+    /* =========================================
+       STEP 1
+    ========================================= */
+
+    if(step === 1){
+
+        visualTitle.innerText = "เริ่มจากข้อมูล";
+
+        visualHint.innerText =
+            "D = {2, 4, 10, 12, 14}";
+
+        panel.innerHTML = `
+
+            <div class="info-step">
+                STEP 01 — START
+            </div>
+
+            <h2>
+                เลือกจำนวนกลุ่ม
+            </h2>
+
+            <p class="info-description">
+                เรามีข้อมูล 5 จุด และต้องการแบ่งออกเป็น
+                2 กลุ่ม ดังนั้น K = 2
+            </p>
+
+            <div class="rule-box">
+                K = 2 → เราต้องมี Centroid จำนวน 2 จุด
+            </div>
+
+            <div class="formula-box">
+
+                <small>DATASET</small>
+
+                <div class="formula">
+                    {2, 4, 10, 12, 14}
+                </div>
+
+                <div class="formula-note">
+                    Initial Centroids: C1 = 2, C2 = 12
+                </div>
+
+            </div>
+
+        `;
+
+    }
+
+
+    /* =========================================
+       STEP 2
+    ========================================= */
+
+    if(step === 2){
+
+        visualTitle.innerText = "Compare Distance";
+
+        visualHint.innerText =
+            "ยิ่งใกล้ = ยิ่งมีโอกาสอยู่ Cluster นั้น";
+
+        panel.innerHTML = `
+
+            <div class="info-step">
+                STEP 02 — COMPARE
+            </div>
+
+            <h2>
+                เปรียบเทียบระยะห่าง
+            </h2>
+
+            <p class="info-description">
+                นำแต่ละจุดไปวัดระยะห่างจาก C1 และ C2
+                แล้วดูว่าจุดนั้นใกล้ Centroid ไหนมากกว่า
+            </p>
+
+            <div class="rule-box">
+                ระยะที่น้อยกว่า = Cluster ที่จุดนั้นจะถูกส่งไป
+            </div>
+
+            <table class="distance-table">
+
+                <thead>
+                    <tr>
+                        <th>Point</th>
+                        <th>|x−C1|</th>
+                        <th>|x−C2|</th>
+                        <th>ใกล้กว่า</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    <tr>
+                        <td>2</td>
+                        <td class="winner">0</td>
+                        <td>10</td>
+                        <td class="winner">C1</td>
+                    </tr>
+
+                    <tr>
+                        <td>4</td>
+                        <td class="winner">2</td>
+                        <td>8</td>
+                        <td class="winner">C1</td>
+                    </tr>
+
+                    <tr>
+                        <td>10</td>
+                        <td>8</td>
+                        <td class="winner green">2</td>
+                        <td class="winner green">C2</td>
+                    </tr>
+
+                    <tr>
+                        <td>12</td>
+                        <td>10</td>
+                        <td class="winner green">0</td>
+                        <td class="winner green">C2</td>
+                    </tr>
+
+                    <tr>
+                        <td>14</td>
+                        <td>12</td>
+                        <td class="winner green">2</td>
+                        <td class="winner green">C2</td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        `;
+
+    }
+
+
+    /* =========================================
+       STEP 3
+    ========================================= */
+
+    if(step === 3){
+
+        visualTitle.innerText = "Points → Clusters";
+
+        visualHint.innerText =
+            "ใครใกล้ C1 → C1 | ใครใกล้ C2 → C2";
+
+        panel.innerHTML = `
+
+            <div class="info-step">
+                STEP 03 — GROUP
+            </div>
+
+            <h2>
+                จุดไหนไปกลุ่มไหน?
+            </h2>
+
+            <p class="info-description">
+                ตอนนี้เราไม่ได้เดาว่าจุดไหนอยู่ Cluster ไหน
+                แต่ใช้ผลจากการเปรียบเทียบระยะห่างใน Step 2
+                เป็นตัวตัดสิน
+            </p>
+
+            <div class="rule-box">
+                ⭐ ระยะห่างน้อยกว่า → ส่งจุดนั้นเข้า Cluster
+            </div>
+
+            <div class="decision-list">
+
+                <div class="decision-row">
+
+                    <div class="decision-point">2</div>
+
+                    <div>
+                        <strong>2 → C1</strong>
+                        <span class="decision-reason">
+                            เพราะ 0 < 10
+                        </span>
+                    </div>
+
+                    <div class="decision-result">
+                        C1
+                    </div>
+
+                </div>
+
+
+                <div class="decision-row">
+
+                    <div class="decision-point">4</div>
+
+                    <div>
+                        <strong>4 → C1</strong>
+                        <span class="decision-reason">
+                            เพราะ 2 < 8
+                        </span>
+                    </div>
+
+                    <div class="decision-result">
+                        C1
+                    </div>
+
+                </div>
+
+
+                <div class="decision-row">
+
+                    <div class="decision-point">10</div>
+
+                    <div>
+                        <strong>10 → C2</strong>
+                        <span class="decision-reason">
+                            เพราะ 2 < 8
+                        </span>
+                    </div>
+
+                    <div class="decision-result green">
+                        C2
+                    </div>
+
+                </div>
+
+
+                <div class="decision-row">
+
+                    <div class="decision-point">12</div>
+
+                    <div>
+                        <strong>12 → C2</strong>
+                        <span class="decision-reason">
+                            เพราะ 0 < 10
+                        </span>
+                    </div>
+
+                    <div class="decision-result green">
+                        C2
+                    </div>
+
+                </div>
+
+
+                <div class="decision-row">
+
+                    <div class="decision-point">14</div>
+
+                    <div>
+                        <strong>14 → C2</strong>
+                        <span class="decision-reason">
+                            เพราะ 2 < 12
+                        </span>
+                    </div>
+
+                    <div class="decision-result green">
+                        C2
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="cluster-summary">
+
+                <div class="cluster-card purple">
+
+                    <small>CLUSTER 1</small>
+
+                    <h4>ใกล้ C1 มากกว่า</h4>
+
+                    <div class="chips">
+
+                        <div class="chip">2</div>
+                        <div class="chip">4</div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="cluster-card green">
+
+                    <small>CLUSTER 2</small>
+
+                    <h4>ใกล้ C2 มากกว่า</h4>
+
+                    <div class="chips">
+
+                        <div class="chip">10</div>
+                        <div class="chip">12</div>
+                        <div class="chip">14</div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        `;
+
+    }
+
+
+    /* =========================================
+       STEP 4
+    ========================================= */
+
+    if(step === 4){
+
+        visualTitle.innerText = "Move the Centroids";
+
+        visualHint.innerText =
+            "C1 : 2 → 3 | C2 : 12 → 12";
+
+        panel.innerHTML = `
+
+            <div class="info-step">
+                STEP 04 — RECENTRE
+            </div>
+
+            <h2>
+                คำนวณ Centroid ใหม่
+            </h2>
+
+            <p class="info-description">
+                เมื่อรู้สมาชิกของแต่ละ Cluster แล้ว
+                ให้นำสมาชิกทั้งหมดมาหาค่าเฉลี่ย
+                เพื่อสร้าง Centroid ใหม่
+            </p>
+
+
+            <div class="formula-box">
+
+                <small>CLUSTER 1</small>
+
+                <div class="formula">
+                    (2 + 4) / 2 = 3.0
+                </div>
+
+                <div class="formula-note">
+                    C1 เดิม = 2 → C1 ใหม่ = 3
+                </div>
+
+            </div>
+
+
+            <div class="formula-box">
+
+                <small>CLUSTER 2</small>
+
+                <div class="formula">
+                    (10 + 12 + 14) / 3 = 12.0
+                </div>
+
+                <div class="formula-note">
+                    C2 เดิม = 12 → C2 ใหม่ = 12
+                </div>
+
+            </div>
+
+        `;
+
+    }
+
+
+    /* =========================================
+       STEP 5
+    ========================================= */
+
+    if(step === 5){
+
+        visualTitle.innerText = "Converged";
+
+        visualHint.innerText =
+            "Centroid ไม่เปลี่ยน → Stop";
+
+        panel.innerHTML = `
+
+            <div class="info-step">
+                STEP 05 — CONVERGE
+            </div>
+
+            <h2>
+                กลุ่มเดิมยังเหมือนเดิม
+            </h2>
+
+            <p class="info-description">
+                เรานำ Centroid ใหม่ C1 = 3 และ C2 = 12
+                ไปคำนวณระยะห่างอีกครั้ง
+                ผลคือสมาชิกยังอยู่กลุ่มเดิมทั้งหมด
+            </p>
+
+
+            <div class="converged">
+
+                <div class="check">
+                    ✓
+                </div>
+
+                <h3>
+                    CONVERGED
+                </h3>
+
+                <p>
+                    Cluster membership ไม่เปลี่ยนแปลง
+                </p>
+
+            </div>
+
+
+            <div class="cluster-summary">
+
+                <div class="cluster-card purple">
+
+                    <small>CLUSTER 1</small>
+
+                    <h4>
+                        2, 4
+                    </h4>
+
+                    <div class="chips">
+
+                        <div class="chip">
+                            Centroid = 3.0
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="cluster-card green">
+
+                    <small>CLUSTER 2</small>
+
+                    <h4>
+                        10, 12, 14
+                    </h4>
+
+                    <div class="chips">
+
+                        <div class="chip">
+                            Centroid = 12.0
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        `;
+
+    }
+
+
+    /* =====================================================
+       UPDATE OVERVIEW
+    ===================================================== */
+
+    for(let i=1;i<=5;i++){
+
+        const card =
+            document.getElementById(`overview${i}`);
+
+        card.classList.toggle(
+            "active",
+            i === step
+        );
+
+    }
+
+
+    /* =====================================================
+       BUTTONS
+    ===================================================== */
+
+    document.getElementById("backBtn").disabled =
+        step === 1;
+
+    document.getElementById("backBtn").style.opacity =
+        step === 1 ? ".45" : "1";
+
+    document.getElementById("nextBtn").innerText =
+        step === 5 ? "Done ✓" : "Next →";
+
+}
+
+
+/* =========================================================
+   SET STEP
+========================================================= */
+
+function setStep(step){
+
+    if(step < 1) step = 1;
+    if(step > 5) step = 5;
+
+    currentStep = step;
+
+    renderPanel(currentStep);
+
+    updateGraph(currentStep);
+
+}
+
+
+/* =========================================================
+   NEXT
+========================================================= */
+
+function nextStep(){
+
+    if(currentStep < 5){
+
+        currentStep++;
+
+        setStep(currentStep);
+
+    }
+
+}
+
+
+/* =========================================================
+   PREVIOUS
+========================================================= */
+
+function prevStep(){
+
+    if(currentStep > 1){
+
+        currentStep--;
+
+        setStep(currentStep);
+
+    }
+
+}
+
+
+/* =========================================================
+   RESET
+========================================================= */
+
+function resetSteps(){
+
+    currentStep = 1;
+
+    setStep(1);
+
+}
+
+
+/* =========================================================
+   CLICK OVERVIEW
+========================================================= */
+
+for(let i=1;i<=5;i++){
+
+    document
+        .getElementById(`overview${i}`)
+        .addEventListener(
+            "click",
+            () => setStep(i)
+        );
+
+}
+
+
+/* =========================================================
+   INITIALIZE
+========================================================= */
+
+setStep(1);
+
+</script>
+
+</body>
+</html>
